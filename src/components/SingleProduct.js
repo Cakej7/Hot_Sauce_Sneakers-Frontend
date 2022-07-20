@@ -1,8 +1,11 @@
 import React from "react";
+import { products } from "../test_data";
 
 const SingleProduct = () => {
     return (
-        <h2>SingleProduct Page</h2>
+        <>
+            
+        </>
     )
 }
 
