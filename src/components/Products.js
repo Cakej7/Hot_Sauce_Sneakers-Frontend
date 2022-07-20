@@ -15,7 +15,9 @@ const Products = () => {
                                 border: '1px solid black',
                                 margin: '5px',
                             }}
-                        >   <Link to={'/products/:productId'}>
+                        > 
+                            {/* send the product id through as a prop to click over to the correct product */}
+                            <Link to={'/products/:productId'}>
                                 <img src={image} alt="" width="250" height="200"></img>
                                 <h1>{brand}</h1>
                                 <h3>{name}</h3>
