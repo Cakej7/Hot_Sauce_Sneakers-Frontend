@@ -48,8 +48,8 @@ const Cart = () => {
 
     return (
         <Container maxWidth="md">
-            <h2>Cart</h2>
-            <Box sx={{ height: '100vh' }}>
+            <h2 style={{textAlign: 'center'}}>Cart</h2>
+            <Box sx={{ height: '100%' }}>
                 <Stack spacing={2}>
                     {myCart.map((item, index) => {
                         return (
@@ -59,7 +59,7 @@ const Cart = () => {
                                     <div>
                                         <p>Name: {item.name}</p>
                                         <p>Brand: {item.brand}</p>
-                                        <p>Price: {item.price}</p>
+                                        <p>Price: ${item.price}</p>
                                     </div>
                                 </div>
                                 <div style={{display: 'flex', alignItems: 'center'}}>
