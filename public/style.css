@@ -18,3 +18,15 @@ a {
     display: block;
     padding: 10px;
 }
+
+#checkout-button {
+    margin-top: 15px;
+}
+
+#remove-button {
+    margin-left: 20px;
+}
+
+#remove-button:hover {
+    cursor: pointer;
+}
