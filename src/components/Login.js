@@ -48,9 +48,12 @@ const Login = () => {
             label="Password"
           />
 
-          <Button variant="contained" component="label">
+          {/* <Button variant="contained" component="label">
             Log In
             <input hidden accept="image/*" multiple type="file" />
+          </Button> */}
+          <Button type="submit" variant="contained">
+            Login
           </Button>
         </Box>
       </form>

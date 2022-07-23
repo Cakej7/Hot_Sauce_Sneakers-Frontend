@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 
 import { Link } from "react-router-dom";
+import { apiUrl } from "../api";
 
 //Import useState
 //Paramter token, setToken
 
 const Register = () => {
-  //   const [username, setUsername] = useState("");
-  //   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   //   const handleSubmit = async (event) => {
   //     event.preventDefault();
@@ -26,7 +27,35 @@ const Register = () => {
         minHeight: "100vh",
       }}
     >
-      <form>
+      <form
+        id="registerForm"
+        onSubmit={async (e) => {
+          console.log("SUBMIT");
+          e.preventDefault();
+
+          try {
+            const response = await fetch(apiUrl + "api/users/register", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: email,
+                password: password,
+              }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.message);
+            }
+
+            console.log(data);
+          } catch (error) {
+            // TODO: Show the error message on the page
+            console.log(error);
+          }
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -41,16 +70,23 @@ const Register = () => {
             helperText="Already have an account? Login Here"
             id="demo-helper-text-aligned"
             label="Email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
           <TextField
             helperText=" "
             id="demo-helper-text-aligned-no-helper"
             label="Password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
 
-          <Button variant="contained" component="label">
+          <Button type="submit" form="registerForm" variant="contained">
             Register
-            <input hidden accept="image/*" multiple type="file" />
           </Button>
         </Box>
       </form>
