@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+
 const products = [
     {
         name: `AIR JORDAN 1 RETRO HIGH OG 'STAGE HAZE'`,
@@ -11,8 +13,8 @@ const products = [
 ]
 
 const SingleProduct = () => {
-    const [stock, setStock] = useState(0)
-    const [size, setSize] = useState(0)
+    const [quantity, setQuantity] = useState(0)
+    const [size, setSize] = useState('Size')
     let navigate = useNavigate()
     
     return (
@@ -26,19 +28,22 @@ const SingleProduct = () => {
                             <h3>{name}</h3>
                             <h2>${price}</h2>
 
+                            {/* Size menu */}
+                            
+
                             <form>
-                                <label>Size: </label>
+                                {/* <label>Size: </label>
                                 <input
                                     type='number'
                                     value={size}
                                     onChange={(e) => setSize(e.target.value)}
-                                />
+                                /> */}
 
-                                <label>Stock: </label>
+                                <label>Quantity: </label>
                                 <input
                                     type='number'
-                                    value={stock}
-                                    onChange={(e) => setStock(e.target.value)}
+                                    value={quantity}
+                                    onChange={(e) => setQuantity(e.target.value)}
                                 />
                                 <button
                                     onClick={(e) => {
