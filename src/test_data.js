@@ -1,4 +1,4 @@
-const products = [
+export const products = [
     {
         name: `AIR JORDAN 1 RETRO HIGH OG 'STAGE HAZE'`,
         brand: `Air Jordan`,
@@ -120,3 +120,4 @@ const products = [
         price: 276.00
     }
 ];
+

@@ -6,7 +6,8 @@ import {
   Cart,
   CheckOut,
   Login,
-  Register
+  Register,
+  SingleProduct
 } from './components';
 
 const App = () => {
@@ -22,7 +23,7 @@ const App = () => {
 
           <Route path='/products' element={<Products />} />
 
-          {/* <Route path='/products/:productId' element={<SingleProduct />} /> */}
+          <Route path='/products/:productId' element={<SingleProduct />} />
 
           {/* <Route path='/:username/profile' element={<Admin />} /> */}
 

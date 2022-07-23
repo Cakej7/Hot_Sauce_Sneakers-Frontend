@@ -30,3 +30,11 @@ a {
 #remove-button:hover {
     cursor: pointer;
 }
+
+button:hover {background-color: #cdcdcd}
+
+button:active {
+  background-color: #cdcdcd;
+  box-shadow: 2px 2px #666;
+  transform: translateY(4px);
+}
