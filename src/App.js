@@ -11,7 +11,6 @@ import {
 } from './components';
 
 const App = () => {
-
   const [token, setToken] = useState(window.localStorage.getItem('token'));
 
   return (
