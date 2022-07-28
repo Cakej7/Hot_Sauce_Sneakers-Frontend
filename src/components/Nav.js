@@ -19,6 +19,7 @@ const Nav = ({ token, setToken }) => {
             <Link to='/cart'>Cart</Link>
             <Link to='/checkout'>Check Out</Link>
             <Link to='/login'>Login/Register</Link>
+            <Link to='/admin'>Admin</Link>
         </div>
     )
 }
