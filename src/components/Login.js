@@ -1,23 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 //Import useState
 //Paramter token, setToken
 
-const Login = () => {
+const Login = ({ setToken }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+
   return (
-    //   const [username, setUsername] = useState("");
-    //   const [password, setPassword] = useState("");
-
-    //   const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     const newToken = await register(username, password);
-    //     setToken(newToken);
-    //   };
-
     <Box
       sx={{
         display: "flex",
@@ -26,7 +22,42 @@ const Login = () => {
         minHeight: "100vh",
       }}
     >
-      <form>
+      <form
+        onSubmit={async (e) => {
+          console.log("SUBMIT");
+          e.preventDefault();
+
+          try {
+            // const response = await fetch(apiUrl + "api/users/register", {
+            const response = await fetch(
+              "http://localhost:3000/api/users/login",
+              {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  email: email,
+                  password: password,
+                }),
+              }
+            );
+
+            const data = await response.json();
+            console.log(response);
+
+            if (!response.ok || data?.error) {
+              throw new Error(data.message);
+            } else {
+              setToken(data.token);
+              navigate("/products");
+            }
+
+            console.log(data);
+          } catch (error) {
+            // TODO: Show the error message on the page
+            console.log(error);
+          }
+        }}
+      >
         <Box
           sx={{
             display: "flex",
@@ -38,16 +69,26 @@ const Login = () => {
         >
           <TextField
             //       <Link to="/login">Already had an account? Login here!</Link>
-            helperText="Don't have an account? Register Here"
+            // helperText="Don't have an account? Register Here"
+            helperText=" "
             id="demo-helper-text-aligned"
             label="Email"
+            required
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
           />
           <TextField
             helperText=" "
             id="demo-helper-text-aligned-no-helper"
             label="Password"
+            required
+            type="password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
           />
-
+          <Link to="/register">Register Here</Link>
           {/* <Button variant="contained" component="label">
             Log In
             <input hidden accept="image/*" multiple type="file" />
