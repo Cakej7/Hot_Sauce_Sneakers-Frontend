@@ -7,11 +7,14 @@ import {
   CheckOut,
   Login,
   Register,
-  SingleProduct
+  SingleProduct,
+  Admin,
+  CreateNewProductForm
 } from './components';
 
 const App = () => {
   const [token, setToken] = useState(window.localStorage.getItem('token'));
+  const [products, setProducts] = useState([])
 
   return (
     <BrowserRouter>
@@ -20,11 +23,14 @@ const App = () => {
 
           <Route index element={<Products />} />
 
-          <Route path='/products' element={<Products />} />
+          <Route path='/products' element={<Products products={products} setProducts={setProducts} />} />
 
           <Route path='/products/:productId' element={<SingleProduct />} />
 
-          {/* <Route path='/:username/profile' element={<Admin />} /> */}
+          <Route path='/createNewProductForm' element={<CreateNewProductForm products={products} setProducts={setProducts} />} />
+
+          {/* Only display when user is logged in as admin */}
+          <Route path='/admin' element={<Admin />} />
 
           <Route path='/cart' element={<Cart />} />
 

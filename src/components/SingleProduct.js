@@ -9,12 +9,13 @@ import axios from "axios";
 
 const SingleProduct = () => {
     const [singleProduct, setSingleProduct] = useState({})
-    const [quantity, setQuantity] = useState([])
+    const [quantity, setQuantity] = useState(1)
     // const [size, setSize] = useState([])
     let navigate = useNavigate()
 
     const {productId} = useParams()
 
+    // get single product by product id
     useEffect(() => {
         axios.get(`http://localhost:3000/api/products/${productId}`)
         .then((response) => {
@@ -26,6 +27,28 @@ const SingleProduct = () => {
     
     return (
         <>
+            {/* Admin only */}
+            <div>
+                <button
+                    onClick={(e) => {
+                    e.preventDefault();
+                    // handleProductEdit()
+                    navigate('../cart')
+                    }}
+                    >Edit Product Information
+                </button>
+
+                <button
+                    onClick={(e) => {
+                    e.preventDefault();
+                    // handleProductDelete()
+                    navigate('../cart')
+                    }}
+                    >Delete Product
+                </button>
+            </div>
+
+            
             <div >
                 <img src={singleProduct.image} alt="" width="500" height="400"></img>
                 <h1>{singleProduct.brand}</h1>
@@ -39,7 +62,7 @@ const SingleProduct = () => {
                         Size
                         </InputLabel>
                         <NativeSelect 
-                        defaultValue={30}
+                        defaultValue={10}
                         inputProps={{
                             name: 'age',
                             id: 'uncontrolled-native',
@@ -53,14 +76,7 @@ const SingleProduct = () => {
                 </Box>
 
                 <form>
-                    {/* <label>Size: </label>
-                    <input
-                        type='number'
-                        value={size}
-                        onChange={(e) => setSize(e.target.value)}
-                    /> */}
-
-                    <label>Quantity: </label>
+                   <label>Quantity: </label>
                     <input
                         type='number'
                         value={quantity}

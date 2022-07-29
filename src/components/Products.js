@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 
-const Products = () => {
-    const [products, setProducts] = useState([])
+const Products = ({ products, setProducts }) => {
+    
 
     useEffect(() => {
         axios.get('http://localhost:3000/api/products')
