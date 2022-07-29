@@ -5,3 +5,5 @@ export {default as Cart} from './Cart';
 export {default as CheckOut} from './CheckOut';
 export {default as Login} from './Login';
 export {default as Register} from './Register';
+export {default as Admin} from './Admin'
+export {default as CreateNewProductForm} from './CreateNewProductForm'
