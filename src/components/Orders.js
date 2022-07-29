@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import { styled, Paper, Stack } from "@mui/material";
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
+  const username = localStorage.getItem("username");
+  const [orders, setOrders] = useState([1, 2, 3]);
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
       try {
         // const response = await fetch(apiUrl + "api/users/register", {
         const response = await fetch(
-          "http://localhost:3000/api/users/test@gmail.com/orderhistory",
+          `http://localhost:3000/api/users/${username}/orderhistory`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -26,7 +27,7 @@ const Orders = () => {
           //   setErrorMessage(data.message);
           throw new Error(data.message);
         } else {
-          setOrders(data.data);
+          // setOrders(data.data);
         }
 
         console.log(data);
@@ -51,6 +52,7 @@ const Orders = () => {
       spacing={1}
       sx={{ width: "100%", paddingLeft: "10px", paddingRight: "10px" }}
     >
+      <p>Current User: {username}</p>
       {orders.map((order, index) => {
         return <p key={index}>{order.orderId}</p>;
       })}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 // import { apiUrl } from "../api";
 
@@ -12,6 +12,8 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -44,12 +46,16 @@ const Register = () => {
 
             const data = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || data?.error) {
               setErrorMessage(data.message);
               throw new Error(data.message);
+            } else {
+              setEmail("");
+              setPassword("");
+              navigate("/login");
             }
 
-            console.log(data);
+            console.log(data, "daata");
           } catch (error) {
             // TODO: Show the error message on the page
             console.log(error);
@@ -72,6 +78,7 @@ const Register = () => {
             helperText=" "
             id="demo-helper-text-aligned"
             label="Email"
+            autoComplete="off"
             required
             value={email}
             onChange={(e) => {

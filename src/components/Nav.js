@@ -15,6 +15,7 @@ const Nav = ({ token, setToken }) => {
 
   const logout = () => {
     setToken(null);
+    localStorage.clear();
     navigate("/login");
   };
 

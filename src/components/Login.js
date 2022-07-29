@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 //Paramter token, setToken
 
 const Login = ({ setToken }) => {
+  const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -42,18 +43,24 @@ const Login = ({ setToken }) => {
             );
 
             const data = await response.json();
+            console.log(data);
             console.log(response);
 
-            if (!response.ok || data?.error) {
+            if (!response.ok || data?.error || data?.name === "TypeError") {
               throw new Error(data.message);
             } else {
               setToken(data.token);
+              localStorage.setItem("token", data.token);
+              localStorage.setItem("username", data.user.username);
+              setEmail("");
+              setPassword("");
               navigate("/products");
             }
 
             console.log(data);
           } catch (error) {
             // TODO: Show the error message on the page
+            setErrorMessage(error.message);
             console.log(error);
           }
         }}
@@ -67,12 +74,15 @@ const Login = ({ setToken }) => {
             maxWidth: "100%",
           }}
         >
+          {/* {errorMessage && <Typography>{errorMessage}</Typography>} */}
           <TextField
             //       <Link to="/login">Already had an account? Login here!</Link>
             // helperText="Don't have an account? Register Here"
             helperText=" "
             id="demo-helper-text-aligned"
             label="Email"
+            autoComplete="off"
+            value={email}
             required
             onChange={(e) => {
               setEmail(e.target.value);
@@ -82,6 +92,7 @@ const Login = ({ setToken }) => {
             helperText=" "
             id="demo-helper-text-aligned-no-helper"
             label="Password"
+            value={password}
             required
             type="password"
             onChange={(e) => {
