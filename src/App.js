@@ -14,7 +14,10 @@ import {
 
 const App = () => {
   //const [token, setToken] = useState(window.localStorage.getItem('token'));
-  const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSIsImlhdCI6MTY1ODk4NjE2NCwiZXhwIjoxNjU5NTkwOTY0fQ.WyCszIHPohOHfTGaBbPhIQ0802tJzosk7p9sEDNBu18');
+  //const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSIsImlhdCI6MTY1ODk4NjE2NCwiZXhwIjoxNjU5NTkwOTY0fQ.WyCszIHPohOHfTGaBbPhIQ0802tJzosk7p9sEDNBu18');
+  
+  //junweiuser
+  const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJqdW53ZWlAdXNlci5jb20iLCJpYXQiOjE2NTkxOTI3NTQsImV4cCI6MTY1OTc5NzU1NH0.KqJgMLVr33W34vao4RizVxCMYl2AwJ6l8vkcMh-1Sac');
   const [products, setProducts] = useState([])
 
   return (
