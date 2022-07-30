@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchCartItems, updateCartItem, deleteCartItem } from "../api";
 
-const Cart = () => {
+const Cart = ({ token }) => {
 
     const [cart, setCart] = useState([]);
     let navigate = useNavigate();
@@ -17,51 +17,22 @@ const Cart = () => {
         color: theme.palette.text.secondary,
     }));
 
-    // const myCart = [
-    //     {
-    //         name: `AIR JORDAN 1 RETRO HIGH OG 'STAGE HAZE'`,
-    //         brand: `Air Jordan`,
-    //         image: `https://cdn.flightclub.com/3000/TEMPLATE/299069/1.jpg`,
-    //         price: 190.00
-    //     },
-    //     {
-    //         name: `AIR JORDAN 3 RETRO 'UNC'`,
-    //         brand: `Air Jordan`,
-    //         image: `https://cdn.flightclub.com/3000/TEMPLATE/149377/1.jpg`,
-    //         price: 450.00
-    //     },
-    //     {
-    //         name: `AIR JORDAN 4 RETRO OG 'FIRE RED' 2020`,
-    //         brand: `Air Jordan`,
-    //         image: `https://cdn.flightclub.com/3000/TEMPLATE/178193/1.jpg`,
-    //         price: 275.00
-    //     },
-    //     {
-    //         name: `AIR JORDAN 6 RETRO OG 'CARMINE' 2021`,
-    //         brand: `Air Jordan`,
-    //         image: `https://cdn.flightclub.com/3000/TEMPLATE/186762/1.jpg`,
-    //         price: 142.00
-    //     }
-    // ];
-
     const handleCheckout = () => {
         navigate('/checkout');
     }
 
     const handleQuantityChange = async (event, inventoryId) => {
-        const updatedCartItems = await updateCartItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSIsImlhdCI6MTY1ODk4NjE2NCwiZXhwIjoxNjU5NTkwOTY0fQ.WyCszIHPohOHfTGaBbPhIQ0802tJzosk7p9sEDNBu18',
-                                                       inventoryId, event.target.value);
+        const updatedCartItems = await updateCartItem(token, inventoryId, event.target.value);
         setCart(updatedCartItems);
     }
 
     const handleDeleteItem = async (inventoryId) => {
-        const updatedCartItems = await deleteCartItem('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSIsImlhdCI6MTY1ODk4NjE2NCwiZXhwIjoxNjU5NTkwOTY0fQ.WyCszIHPohOHfTGaBbPhIQ0802tJzosk7p9sEDNBu18',
-                                                      inventoryId);
+        const updatedCartItems = await deleteCartItem(token, inventoryId);
         setCart(updatedCartItems);
     }
 
     const fetchCart = async () => {
-        const cartItems = await fetchCartItems('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXN0QGVtYWlsLmNvbSIsImlhdCI6MTY1ODk4NjE2NCwiZXhwIjoxNjU5NTkwOTY0fQ.WyCszIHPohOHfTGaBbPhIQ0802tJzosk7p9sEDNBu18');
+        const cartItems = await fetchCartItems(token);
         setCart(cartItems);
     }
 
@@ -70,7 +41,6 @@ const Cart = () => {
         // eslint-disable-next-line
     }, []);
 
-    console.log(cart);
     return (
         <Container maxWidth="md">
             <h2 style={{textAlign: 'center'}}>Cart</h2>

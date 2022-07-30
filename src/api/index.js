@@ -67,3 +67,41 @@ export const deleteCartItem = async (token, inventoryId) => {
         console.error(e);
     }
 }
+
+// add cart item for logged in user
+export const addCartItem = async (token, inventoryId, count) => {
+    const url = `${BASE_URL}/cart`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                inventoryId,
+                count
+            })
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
+
+// get inventory by product id and size id
+export const getInventoryByProductIdAndSizeId = async (productId, sizeId) => {
+    const url = `${BASE_URL}/inventory/${productId}/${sizeId}`;
+    
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
