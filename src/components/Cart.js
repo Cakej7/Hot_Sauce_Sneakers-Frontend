@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchCartItems, updateCartItem, deleteCartItem, getInventoryByProductIdAndSizeId } from "../api";
 
-const Cart = ({ token }) => {
+const Cart = ({ token, cart, setCart }) => {
 
-    const [cart, setCart] = useState([]);
+    //const [cart, setCart] = useState([]);
     let navigate = useNavigate();
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -39,8 +39,20 @@ const Cart = ({ token }) => {
     const handleQuantityChange = async (event, count, inventoryId, productId, sizeId) => {
         const inventory = await getInventoryByProductIdAndSizeId(productId, sizeId);
         if(inventory.stock >= event.target.value) {
-            const updatedCartItems = await updateCartItem(token, inventoryId, event.target.value);
-            setCart(updatedCartItems);
+            if(token) {
+                const updatedCartItems = await updateCartItem(token, inventoryId, event.target.value);
+                setCart(updatedCartItems);
+            }
+            else {
+                const items = [...cart];
+
+                for(let i = 0; i < items.length; i++) {
+                    if(items[i].inventoryId === inventoryId) {
+                        items[i].count = event.target.value;
+                    }
+                }
+                setCart(items);
+            }
         }
         else {
             setStock(inventory.stock);
@@ -50,8 +62,23 @@ const Cart = ({ token }) => {
     }
 
     const handleDeleteItem = async (inventoryId) => {
-        const updatedCartItems = await deleteCartItem(token, inventoryId);
-        setCart(updatedCartItems);
+        if(token) {
+            const updatedCartItems = await deleteCartItem(token, inventoryId);
+            setCart(updatedCartItems);
+        }
+        else {
+            const items = [...cart];
+            let index = 0;
+
+            for(let i = 0; i < items.length; i++) {
+                if(items[i].inventoryId === inventoryId) {
+                    index = i;
+                }
+            }
+
+            items.splice(index, 1);
+            setCart(items);
+        }
     }
 
     const fetchCart = async () => {
@@ -60,7 +87,9 @@ const Cart = ({ token }) => {
     }
 
     useEffect(() => {
-        fetchCart();
+        if(token) {
+            fetchCart();
+        }
         // eslint-disable-next-line
     }, []);
 

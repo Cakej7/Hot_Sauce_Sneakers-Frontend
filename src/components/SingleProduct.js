@@ -6,7 +6,7 @@ import axios from "axios";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { getInventoryByProductIdAndSizeId, addCartItem } from "../api";
 
-const SingleProduct = ({ token }) => {
+const SingleProduct = ({ token, cart, setCart }) => {
     const [singleProduct, setSingleProduct] = useState({})
     const [quantity, setQuantity] = useState(1)
     const [sizes, setSizes] = useState([]);
@@ -29,12 +29,13 @@ const SingleProduct = ({ token }) => {
     });
 
     const [openCartAlert, setOpenCartAlert] = useState(false);
-    const [addedItem, setAddedItem] = useState(null);
+    const [addedItem, setAddedItem] = useState(1);
 
     const handleCartAlertClose = (event, reason) => {
         if (reason === 'clickaway') {
             return;
         }
+        setAddedItem(1);
         setOpenCartAlert(false);
     };
 
@@ -65,12 +66,51 @@ const SingleProduct = ({ token }) => {
         setSize(event.target.value);
     }
 
-    const handleAddToCart = async () => {
-        const inventory = await getInventoryByProductIdAndSizeId(productId, size);
-        setAddedItem(await addCartItem(token, inventory.id, quantity));
+    const handleAddToCart = async (singleProduct) => {
+        const inventory = await getInventoryByProductIdAndSizeId(productId, parseInt(size));
+        if(token) {
+            setAddedItem(await addCartItem(token, inventory.id, parseInt(quantity)));
+        }
+        else {
+            let itemExisted = false;
+            const items = [...cart];
+
+            for(let i = 0; i < items.length; i++) {
+                if(items[i].inventoryId === inventory.id) {
+                    setAddedItem(undefined);
+                    itemExisted = true;
+                }
+            }
+            if(!itemExisted) {
+                let sizeNum = '';
+                let sizeGen = '';
+                for(let i = 0; i < singleProduct.sizes.length; i++) {
+                    if(singleProduct.sizes[i].sizeId === parseInt(size)) {
+                        sizeNum = singleProduct.sizes[i].size;
+                        sizeGen = singleProduct.sizes[i].gender;
+                    }
+                }
+                
+                items.push(
+                    {
+                        productId: singleProduct.id,
+                        brand: singleProduct.brand,
+                        price: singleProduct.price,
+                        name: singleProduct.name,
+                        image: singleProduct.image,
+                        sizeId: parseInt(size),
+                        size: sizeNum,
+                        gender: sizeGen,
+                        inventoryId: inventory.id,
+                        count: parseInt(quantity)
+                    }
+                )
+                setCart(items);
+            }
+        }
         setOpenCartAlert(true);
     }
-    
+
     return (
         <Container maxWidth="sm">
             <Box sx={{ height: '100vh',display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -108,7 +148,7 @@ const SingleProduct = ({ token }) => {
                     </FormControl>      
                 </div>
                 <Button id='add-to-cart-button' variant="contained" size="large" 
-                        onClick={handleAddToCart} endIcon={<ShoppingCartIcon/>}>
+                        onClick={() => handleAddToCart(singleProduct)} endIcon={<ShoppingCartIcon/>}>
                     Add To Cart
                 </Button>
                 <Snackbar open={openCartAlert} autoHideDuration={6000} onClose={handleCartAlertClose}
