@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { styled, Paper, Stack } from "@mui/material";
 
 const Orders = () => {
-  // const username = localStorage.getItem("username");
   const userId = localStorage.getItem("userId");
   const [orders, setOrders] = useState([1, 2, 3]);
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
       try {
-        // const response = await fetch(apiUrl + "api/users/register", {
         const response = await fetch(
           `http://localhost:3000/api/users/${userId}/orderhistory`,
           {

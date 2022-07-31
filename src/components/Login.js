@@ -32,7 +32,6 @@ const Login = ({ setToken }) => {
             // const response = await fetch(apiUrl + "api/users/register", {
             const response = await fetch(
               "http://localhost:3000/api/users/login",
-              // "http://localhost:3000/api/users/:userId/login",
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
