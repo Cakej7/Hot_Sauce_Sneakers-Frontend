@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const Products = ({ products, setProducts }) => {
     
-
     useEffect(() => {
         axios.get('http://localhost:3000/api/products')
         .then((response) => {
