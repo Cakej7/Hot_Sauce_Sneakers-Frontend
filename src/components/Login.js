@@ -52,7 +52,8 @@ const Login = ({ setToken }) => {
             } else {
               setToken(data.token);
               localStorage.setItem("token", data.token);
-              localStorage.setItem("username", data.user.username);
+              localStorage.setItem("emai", data.user.email);
+              localStorage.setItem("userId", data.user.id);
               setEmail("");
               setPassword("");
               navigate("/products");
