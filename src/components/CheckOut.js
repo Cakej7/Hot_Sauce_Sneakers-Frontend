@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Box, Stack, styled, Paper, Divider, TextField, Button, Modal } from "@mui/material";
+import { deleteCartItem, updateInventory } from "../api";
 
 const CheckOut = ({token, cart, setCart}) => {
 
@@ -23,7 +24,7 @@ const CheckOut = ({token, cart, setCart}) => {
     };
 
     const [modalOpen, setModalOpen] = useState(false);
-    const handleModalClose = () => {
+    const handleModalClose = async () => {
         setModalOpen(false);
         setName('');
         setAddress('');
@@ -32,6 +33,11 @@ const CheckOut = ({token, cart, setCart}) => {
         setZip('');
         setEmail('');
         setPhone('');
+        await Promise.all(cart.map((item) => updateInventory(item.productId, item.sizeId, item.count)));
+        if(token) {
+            await Promise.all(cart.map((item) => deleteCartItem(token, item.inventoryId)));
+            
+        }
         setCart([]);
     }
 
@@ -55,7 +61,6 @@ const CheckOut = ({token, cart, setCart}) => {
     let tax = parseFloat((subtotal * 0.09).toFixed(2));
     let total = subtotal + tax;
 
-    console.log(cart);
     return (
         <Container maxWidth="md">
             <h2 style={{textAlign: 'center'}}>Checkout</h2>
