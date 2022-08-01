@@ -105,3 +105,26 @@ export const getInventoryByProductIdAndSizeId = async (productId, sizeId) => {
         console.error(e);
     }
 }
+
+// update inventory for checkout
+export const updateInventory = async (productId, sizeId, count) => {
+    const url = `${BASE_URL}/inventory/${productId}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sizeId,
+                count
+            })
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
