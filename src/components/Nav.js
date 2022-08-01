@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Nav = ({ token, setToken }) => {
+const Nav = ({ cart, token, setToken }) => {
     //let navigate = useNavigate();
 
     // log out button clicked, clear local storage, set token to null
@@ -17,7 +17,7 @@ const Nav = ({ token, setToken }) => {
         <div id='nav-bar'>
             <Link to='/products'>Products</Link>
             <Link to='/cart'>Cart</Link>
-            <Link to='/checkout'>Check Out</Link>
+            {cart.length ? <Link to='/checkout'>Check Out</Link> : null}
             <Link to='/login'>Login/Register</Link>
             <Link to='/admin'>Admin</Link>
         </div>
