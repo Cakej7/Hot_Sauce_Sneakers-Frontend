@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 
 const Nav = ({ token, setToken }) => {
   const navigate = useNavigate();
+  const isAdmin = localStorage.getItem("isAdmin");
 
   // log out button clicked, clear local storage, set token to null
   // const handleClick = () => {
@@ -29,6 +30,7 @@ const Nav = ({ token, setToken }) => {
         <>
           <Link to="/orders">Orders</Link>
           <button onClick={logout}>Logout</button>
+          {isAdmin && <Link to="/admin/users">Admin</Link>}
         </>
       ) : (
         <Link to="/login">Login/Register</Link>

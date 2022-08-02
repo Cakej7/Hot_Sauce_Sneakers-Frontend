@@ -93,6 +93,39 @@ const CreateNewProductForm = ({ products, setProducts }) => {
     fetchBrands();
   }, []);
 
+  const onCreateProductSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // const response = await fetch(apiUrl + "api/users/register", {
+      const response = await fetch("http://localhost:3000/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name,
+          brandId: brand,
+          price: price,
+          image: image,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || data?.error) {
+        throw new Error(data.message);
+      } else {
+        setProductName("");
+        setProductBrand("");
+        setProductPrice("");
+        setProductImage("");
+      }
+
+      console.log(data, "daata");
+    } catch (error) {
+      // TODO: Show the error message on the page
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Container maxWidth="md">
@@ -111,6 +144,7 @@ const CreateNewProductForm = ({ products, setProducts }) => {
                 flexDirection: "column",
                 alignItems: "center",
               }}
+              onSubmit={(e) => onCreateProductSubmit(e)}
             >
               <div style={{ width: "100%" }}>
                 <h3 style={{ textAlign: "center" }}>Product Name</h3>
@@ -121,6 +155,9 @@ const CreateNewProductForm = ({ products, setProducts }) => {
                   type="text"
                   fullWidth
                   required
+                  onChange={(e) => {
+                    setProductName(e.target.value);
+                  }}
                 />
               </div>
               <div style={{ width: "100%" }}>
@@ -132,6 +169,9 @@ const CreateNewProductForm = ({ products, setProducts }) => {
                   type="text"
                   fullWidth
                   required
+                  onChange={(e) => {
+                    setProductPrice(e.target.value);
+                  }}
                 />
               </div>
               <div style={{ width: "100%" }}>
@@ -143,6 +183,9 @@ const CreateNewProductForm = ({ products, setProducts }) => {
                   type="text"
                   fullWidth
                   required
+                  onChange={(e) => {
+                    setProductImage(e.target.value);
+                  }}
                 />
               </div>
               <div style={{ width: "100%" }}>
@@ -154,15 +197,27 @@ const CreateNewProductForm = ({ products, setProducts }) => {
                   <NativeSelect
                     inputProps={{ name: "quantity", id: "select-quantity" }}
                     fullWidth
+                    onChange={(e) => {
+                      setProductBrand(e.target.value);
+                    }}
                   >
                     <option>Select Brand</option>
                     {brands.map((brand) => {
-                      return <option key={brand.id}>{brand.name}</option>;
+                      return (
+                        <option key={brand.id} value={brand.id}>
+                          {brand.name}
+                        </option>
+                      );
                     })}
                   </NativeSelect>
                 </FormControl>
               </div>
-              <Button id="pay-button" variant="contained" size="large">
+              <Button
+                type="submit"
+                id="pay-button"
+                variant="contained"
+                size="large"
+              >
                 Submit
               </Button>
             </form>

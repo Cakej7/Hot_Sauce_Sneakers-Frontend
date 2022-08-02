@@ -12,6 +12,7 @@ import {
   CreateNewProductForm,
   Orders,
   AdminProducts,
+  AdminUsers,
 } from "./components";
 
 const App = () => {
@@ -32,20 +33,22 @@ const App = () => {
           />
           <Route path="/products/:productId" element={<SingleProduct />} />
           {/* Only display when user is logged in as admin */}
-          <Route path="/admin" element={<Admin token={token} />} />
-          <Route
-            path="/admin/new-product"
-            element={
-              <CreateNewProductForm
-                products={products}
-                setProducts={setProducts}
-              />
-            }
-          />
-          <Route
-            path="/admin/products"
-            element={<AdminProducts token={token} />}
-          />
+          <Route path="/admin" element={<Admin token={token} />}>
+            <Route
+              path="/admin/new-product"
+              element={
+                <CreateNewProductForm
+                  products={products}
+                  setProducts={setProducts}
+                />
+              }
+            />
+            <Route
+              path="/admin/products"
+              element={<AdminProducts token={token} />}
+            />
+            <Route path="/admin/users" element={<AdminUsers token={token} />} />
+          </Route>
 
           <Route path="/orders" element={<Orders />} />
           <Route path="/cart" element={<Cart />} />
