@@ -1,94 +1,176 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Box, Stack, styled, Paper, Divider, TextField, Button } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  Container,
+  Box,
+  Stack,
+  styled,
+  Paper,
+  Divider,
+  TextField,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  NativeSelect,
+} from "@mui/material";
 
 const CreateNewProductForm = ({ products, setProducts }) => {
-    const tempToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJqYWNvYkBhZG1pbi5jb20iLCJpYXQiOjE2NTkwNjQ3NzQsImV4cCI6MTY1OTY2OTU3NH0.IJACOJ5HzOhu9u9972Lm2vpJp6x1eSaIBcYDIWs9vRU'
-    let navigate = useNavigate()
-    const [name, setProductName] = useState('')
-    const [price, setProductPrice] = useState(null)
-    const [brand, setProductBrand] = useState(null)
-    const [image, setProductImage] = useState('')
+  const tempToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJqYWNvYkBhZG1pbi5jb20iLCJpYXQiOjE2NTkwNjQ3NzQsImV4cCI6MTY1OTY2OTU3NH0.IJACOJ5HzOhu9u9972Lm2vpJp6x1eSaIBcYDIWs9vRU";
+  let navigate = useNavigate();
+  const [brands, setBrands] = useState([]);
+  const [name, setProductName] = useState("");
+  const [price, setProductPrice] = useState(null);
+  const [brand, setProductBrand] = useState(null);
+  const [image, setProductImage] = useState("");
 
-    const createProductFetch = async () => {
-        try {
-            const response = await fetch(`http://localhost:3000/api/products`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${tempToken}`
-                },
-                body: JSON.stringify({
-                    name,
-                    price,
-                    brandId: brand,
-                    image
-                })
-            })
-            const result = await response.json()
-            console.log(result)
-            // navigate(`../products`)
-            
-        } catch (err) {
-            console.log(err)
-        }
+  const createProductFetch = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/products`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${tempToken}`,
+        },
+        body: JSON.stringify({
+          name,
+          price,
+          brandId: brand,
+          image,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+      // navigate(`../products`)
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    // post method for api/inventory to add new product to stock
-    const addProductToInventory = async () => {
-        try {
-            const response = await fetch(`http://localhost:3000/api/inventory`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${tempToken}`
-                },
-                body: JSON.stringify({
-                    name,
-                    price,
-                    brandId: brand,
-                    image
-                })
-            })
-            const result = await response.json()
-            console.log(result)
-            // navigate(`../products`)
-            
-        } catch (err) {
-            console.log(err)
-        }
+  // post method for api/inventory to add new product to stock
+  const addProductToInventory = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/inventory`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${tempToken}`,
+        },
+        body: JSON.stringify({
+          name,
+          price,
+          brandId: brand,
+          image,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+      // navigate(`../products`)
+    } catch (err) {
+      console.log(err);
     }
+  };
 
-    return (
-        <>
-            <Container maxWidth="md">
-            <h2 style={{textAlign: 'center'}}>Add New Product</h2>
-            <Box sx={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{width: '100%'}}>
-                    <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                        <div style={{width: '100%'}}>
-                            <h3 style={{textAlign: 'center'}}>Product Name</h3>
-                            <TextField label="Product Name" variant="outlined" margin="normal" type="text" fullWidth required/>
-                        </div>
-                        <div style={{width: '100%'}}>
-                            <h3 style={{textAlign: 'center'}}>Product Price</h3>
-                            <TextField label="Product Price" variant="outlined" margin="normal" type="text" fullWidth required/>
-                        </div>
-                        <div style={{width: '100%'}}>
-                            <h3 style={{textAlign: 'center'}}>Product Image</h3>
-                            <TextField label="Image URL" variant="outlined" margin="normal" type="text" fullWidth required/>
-                        </div>
-                        <div style={{width: '100%'}}>
-                            <h3 style={{textAlign: 'center'}}>Brand</h3>
-                            <TextField label="Replace with a dropdown" variant="outlined" margin="normal" type="text" fullWidth required/>
-                        </div>
-                        <Button id='pay-button' variant="contained" size="large">Submit</Button>
-                    </form>
-                </div>
-            </Box>
-        </Container>
+  const fetchBrands = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/brands`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await response.json();
+      console.log(result);
+      setBrands(result);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-        {/* <form
+  useEffect(() => {
+    fetchBrands();
+  }, []);
+
+  return (
+    <>
+      <Container maxWidth="md">
+        <h2 style={{ textAlign: "center" }}>Add New Product</h2>
+        <Box
+          sx={{
+            height: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ width: "100%" }}>
+            <form
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ width: "100%" }}>
+                <h3 style={{ textAlign: "center" }}>Product Name</h3>
+                <TextField
+                  label="Product Name"
+                  variant="outlined"
+                  margin="normal"
+                  type="text"
+                  fullWidth
+                  required
+                />
+              </div>
+              <div style={{ width: "100%" }}>
+                <h3 style={{ textAlign: "center" }}>Product Price</h3>
+                <TextField
+                  label="Product Price"
+                  variant="outlined"
+                  margin="normal"
+                  type="text"
+                  fullWidth
+                  required
+                />
+              </div>
+              <div style={{ width: "100%" }}>
+                <h3 style={{ textAlign: "center" }}>Product Image</h3>
+                <TextField
+                  label="Image URL"
+                  variant="outlined"
+                  margin="normal"
+                  type="text"
+                  fullWidth
+                  required
+                />
+              </div>
+              <div style={{ width: "100%" }}>
+                <h3 style={{ textAlign: "center" }}>Brand</h3>
+                <FormControl sx={{ width: "100%", marginBottom: "10px" }}>
+                  <InputLabel variant="standard" htmlFor="select-quantity">
+                    Select Brand
+                  </InputLabel>
+                  <NativeSelect
+                    inputProps={{ name: "quantity", id: "select-quantity" }}
+                    fullWidth
+                  >
+                    <option>Select Brand</option>
+                    {brands.map((brand) => {
+                      return <option key={brand.id}>{brand.name}</option>;
+                    })}
+                  </NativeSelect>
+                </FormControl>
+              </div>
+              <Button id="pay-button" variant="contained" size="large">
+                Submit
+              </Button>
+            </form>
+          </div>
+        </Box>
+      </Container>
+
+      {/* <form
         onSubmit={(e) => {
             e.preventDefault()
             createProductFetch()
@@ -129,8 +211,8 @@ const CreateNewProductForm = ({ products, setProducts }) => {
                     Submit
                 </button>
             </form> */}
-        </>
-    )
-}
+    </>
+  );
+};
 
-export default CreateNewProductForm
+export default CreateNewProductForm;

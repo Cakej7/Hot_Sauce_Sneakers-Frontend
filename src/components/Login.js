@@ -53,6 +53,7 @@ const Login = ({ setToken }) => {
               localStorage.setItem("token", data.token);
               localStorage.setItem("emai", data.user.email);
               localStorage.setItem("userId", data.user.id);
+              localStorage.setItem("isAdmin", data.user.isAdmin);
               setEmail("");
               setPassword("");
               navigate("/products");
