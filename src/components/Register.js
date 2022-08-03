@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-
+import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 // import { apiUrl } from "../api";
 
@@ -9,14 +9,11 @@ import { Link } from "react-router-dom";
 //Paramter token, setToken
 
 const Register = () => {
+  const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //   const handleSubmit = async (event) => {
-  //     event.preventDefault();
-  //     const newToken = await register(username, password);
-  //     setToken(newToken);
-  //   };
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -36,7 +33,7 @@ const Register = () => {
           try {
             // const response = await fetch(apiUrl + "api/users/register", {
             const response = await fetch(
-              "htttp://localhost:3000/api/users/register",
+              "http://localhost:3000/api/users/register",
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -49,11 +46,16 @@ const Register = () => {
 
             const data = await response.json();
 
-            if (!response.ok) {
+            if (!response.ok || data?.error) {
+              setErrorMessage(data.message);
               throw new Error(data.message);
+            } else {
+              setEmail("");
+              setPassword("");
+              navigate("/login");
             }
 
-            console.log(data);
+            console.log(data, "daata");
           } catch (error) {
             // TODO: Show the error message on the page
             console.log(error);
@@ -69,26 +71,33 @@ const Register = () => {
             maxWidth: "100%",
           }}
         >
+          {errorMessage && <Typography>{errorMessage}</Typography>}
           <TextField
             //       <Link to="/login">Already had an account? Login here!</Link>
-            helperText="Already have an account? Login Here"
+            // helperText="Already have an account? Login Here"
+            helperText=" "
             id="demo-helper-text-aligned"
             label="Email"
+            autoComplete="off"
+            required
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
           />
+
           <TextField
             helperText=" "
             id="demo-helper-text-aligned-no-helper"
             label="Password"
+            required
             value={password}
+            type="password"
             onChange={(e) => {
               setPassword(e.target.value);
             }}
           />
-
+          <Link to="/login">Login Here</Link>
           <Button type="submit" form="registerForm" variant="contained">
             Register
           </Button>
