@@ -16,22 +16,25 @@ import {
 } from "./components";
 
 const App = () => {
-  const [token, setToken] = useState(window.localStorage.getItem("token"));
+
+  const [token, setToken] = useState(window.localStorage.getItem('token'));
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout token={token} setToken={setToken} />}>
-          <Route
-            index
-            element={<Products products={products} setProducts={setProducts} />}
-          />
-          <Route
-            path="/products"
-            element={<Products products={products} setProducts={setProducts} />}
-          />
-          <Route path="/products/:productId" element={<SingleProduct />} />
+
+        <Route path='/' element={<Layout cart={cart} token={token} setToken={setToken}/>}>
+
+          <Route index element={<Products products={products} setProducts={setProducts}/>} />
+
+          <Route path='/products' element={<Products products={products} setProducts={setProducts} />} />
+
+          <Route path='/products/:productId' element={<SingleProduct token={token} cart={cart} setCart={setCart}/>} />
+
+          <Route path='/createNewProductForm' element={<CreateNewProductForm products={products} setProducts={setProducts} />} />
+
           {/* Only display when user is logged in as admin */}
           <Route path="/admin" element={<Admin token={token} />}>
             <Route
@@ -50,9 +53,12 @@ const App = () => {
             <Route path="/admin/users" element={<AdminUsers token={token} />} />
           </Route>
 
+          <Route path='/cart' element={<Cart token={token} cart={cart} setCart={setCart}/>} />
+
+          {cart.length ? <Route path='/checkout' element={<CheckOut token={token} cart={cart} setCart={setCart}/>} /> : null}
+
           <Route path="/orders" element={<Orders />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<CheckOut />} />
+          
           {token ? null : (
             <Route path="/login" element={<Login setToken={setToken} />} />
           )}
@@ -62,6 +68,7 @@ const App = () => {
               element={<Register setToken={setToken} />}
             />
           )}
+
           <Route path="*" element={<Navigate to="/" replace={true} />} />
         </Route>
       </Routes>
