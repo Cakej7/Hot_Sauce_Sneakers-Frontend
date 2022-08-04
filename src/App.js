@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import {
   Layout,
@@ -17,9 +17,9 @@ import {
 
 const App = () => {
 
-  const [token, setToken] = useState(window.localStorage.getItem('token'));
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart') || "[]"));
 
   return (
     <BrowserRouter>

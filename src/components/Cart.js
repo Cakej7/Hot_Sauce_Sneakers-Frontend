@@ -8,7 +8,6 @@ import { fetchCartItems, updateCartItem, deleteCartItem, getInventoryByProductId
 
 const Cart = ({ token, cart, setCart }) => {
 
-    //const [cart, setCart] = useState([]);
     let navigate = useNavigate();
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -52,6 +51,7 @@ const Cart = ({ token, cart, setCart }) => {
                     }
                 }
                 setCart(items);
+                localStorage.setItem('cart', JSON.stringify(items));
             }
         }
         else {
@@ -78,6 +78,7 @@ const Cart = ({ token, cart, setCart }) => {
 
             items.splice(index, 1);
             setCart(items);
+            localStorage.setItem('cart', JSON.stringify(items));
         }
     }
 

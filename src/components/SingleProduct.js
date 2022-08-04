@@ -106,6 +106,7 @@ const SingleProduct = ({ token, cart, setCart }) => {
                     }
                 )
                 setCart(items);
+                localStorage.setItem('cart', JSON.stringify(items));
             }
         }
         setOpenCartAlert(true);

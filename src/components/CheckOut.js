@@ -39,6 +39,7 @@ const CheckOut = ({token, cart, setCart}) => {
             
         }
         setCart([]);
+        localStorage.removeItem('cart');
     }
 
     const [name, setName] = useState('');
