@@ -4,11 +4,11 @@ import Header from "./Header";
 import Footer from "./Footer";
 
 
-const Layout = ({ cart, token, setToken }) => {
+const Layout = ({ cart, setCart, token, setToken }) => {
   // basic layout header, content, footer  
   return (
         <>
-          <Header cart={cart} token={token} setToken={setToken}/>
+          <Header cart={cart} setCart={setCart} token={token} setToken={setToken}/>
           <Outlet />
           <Footer />
         </>

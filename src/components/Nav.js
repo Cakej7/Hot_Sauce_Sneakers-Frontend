@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 
-const Nav = ({ cart, token, setToken }) => {
+const Nav = ({ cart, setCart, token, setToken }) => {
     
   const navigate = useNavigate();
   const isAdmin = localStorage.getItem("isAdmin");
@@ -10,6 +10,7 @@ const Nav = ({ cart, token, setToken }) => {
   const logout = () => {
     setToken(null);
     localStorage.clear();
+    setCart([]);
     navigate("/login");
   };
 

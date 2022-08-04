@@ -25,7 +25,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
 
-        <Route path='/' element={<Layout cart={cart} token={token} setToken={setToken}/>}>
+        <Route path='/' element={<Layout cart={cart} setCart={setCart} token={token} setToken={setToken}/>}>
 
           <Route index element={<Products products={products} setProducts={setProducts}/>} />
 
@@ -60,7 +60,7 @@ const App = () => {
           <Route path="/orders" element={<Orders />} />
           
           {token ? null : (
-            <Route path="/login" element={<Login setToken={setToken} />} />
+            <Route path="/login" element={<Login cart={cart} setToken={setToken} />} />
           )}
           {token ? null : (
             <Route
