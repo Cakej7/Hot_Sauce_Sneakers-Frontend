@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Box, Paper, Stack, styled, Button,
          FormControl, InputLabel, NativeSelect, Snackbar } from "@mui/material";
 import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { fetchCartItems, updateCartItem, deleteCartItem, getInventoryByProductIdAndSizeId } from "../api";
+import { updateCartItem, deleteCartItem, getInventoryByProductIdAndSizeId } from "../api";
 
 const Cart = ({ token, cart, setCart }) => {
 
@@ -79,20 +79,12 @@ const Cart = ({ token, cart, setCart }) => {
             items.splice(index, 1);
             setCart(items);
             localStorage.setItem('cart', JSON.stringify(items));
+
+            if(items.length === 0) {
+                localStorage.removeItem('cart');
+            }
         }
     }
-
-    const fetchCart = async () => {
-        const cartItems = await fetchCartItems(token);
-        setCart(cartItems);
-    }
-
-    useEffect(() => {
-        if(token) {
-            fetchCart();
-        }
-        // eslint-disable-next-line
-    }, []);
 
     return (
         <Container maxWidth="md">

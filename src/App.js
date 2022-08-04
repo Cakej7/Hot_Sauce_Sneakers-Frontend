@@ -60,7 +60,7 @@ const App = () => {
           <Route path="/orders" element={<Orders />} />
           
           {token ? null : (
-            <Route path="/login" element={<Login cart={cart} setToken={setToken} />} />
+            <Route path="/login" element={<Login cart={cart} setCart={setCart} token={token} setToken={setToken} />} />
           )}
           {token ? null : (
             <Route
