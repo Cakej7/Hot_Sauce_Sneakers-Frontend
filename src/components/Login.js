@@ -101,7 +101,6 @@ const Login = ({ setToken }) => {
               setPassword(e.target.value);
             }}
           />
-          <Link to="/register">Register Here</Link>
           {/* <Button variant="contained" component="label">
             Log In
             <input hidden accept="image/*" multiple type="file" />
@@ -109,6 +108,7 @@ const Login = ({ setToken }) => {
           <Button type="submit" variant="contained">
             Login
           </Button>
+          <Link to="/register">Don't have an account? Register Here!</Link>
         </Box>
       </form>
     </Box>

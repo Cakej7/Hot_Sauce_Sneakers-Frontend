@@ -22,11 +22,15 @@ const Nav = ({ cart, token, setToken }) => {
       {token ? (
         <>
           <Link to="/orders">Orders</Link>
-          <button onClick={logout}>Logout</button>
-          {isAdmin && <Link to="/admin/users">Admin</Link>}
+          <Link to="/" onClick={logout}>Logout</Link>
+          {isAdmin === true ? 
+          <Link to="/admin/users">Admin</Link>
+            :
+            null
+          }
         </>
       ) : (
-        <Link to="/login">Login/Register</Link>
+        <Link to="/login">Sign In</Link>
       )}
     </div>
   );

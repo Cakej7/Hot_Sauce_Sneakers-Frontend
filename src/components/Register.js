@@ -3,17 +3,23 @@ import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-// import { apiUrl } from "../api";
-
-//Import useState
-//Paramter token, setToken
+import Swal from 'sweetalert2'
 
 const Register = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
 
   const navigate = useNavigate();
+
+  const handleError = () => {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: `Passwords don't match!`
+    })
+  }
 
   return (
     <Box
@@ -97,10 +103,30 @@ const Register = () => {
               setPassword(e.target.value);
             }}
           />
-          <Link to="/login">Login Here</Link>
-          <Button type="submit" form="registerForm" variant="contained">
-            Register
-          </Button>
+
+          <TextField
+            helperText=" "
+            id="demo-helper-text-aligned-no-helper2"
+            label="Confirm Password"
+            required
+            value={confirmedPassword}
+            type="password"
+            onChange={(e) => {
+              setConfirmedPassword(e.target.value);
+            }}
+          />
+
+          {password === confirmedPassword ? 
+            <Button type="submit" form="registerForm" variant="contained">
+              Register
+            </Button>
+            :
+            <Button variant="contained" onClick={handleError}>
+              Register
+            </Button>
+          }
+          
+          <Link to="/login">Already have an account? Login Here!</Link>
         </Box>
       </form>
     </Box>
