@@ -16,8 +16,13 @@ import {
   NativeSelect,
 } from "@mui/material";
 import { fetchBrands, updateProduct } from "../api";
+import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminProducts = ({ token }) => {
+
+  let navigate = useNavigate()
+
   const [products, setProducts] = useState([]);
   const [brands, setBrands] = useState([]);
   const [productName, setProductName] = useState("");
@@ -142,10 +147,33 @@ const AdminProducts = ({ token }) => {
                     </div>
                   </div>
                   <div style={{ display: "flex" }}>
+
                     <Button onClick={() => onEditProductModalOpen(product)}>
                       Edit
                     </Button>
-                    <Button onClick={() => onDeleteProduct(product.id)}>
+                    <Button onClick={async(e) => {
+                      e.preventDefault()
+                      Swal.fire({
+                        title: 'Are you sure you want to delete this product?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                          Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Product deleted',
+                            showConfirmButton: false,
+                            timer: 1000
+                          })
+                        onDeleteProduct(product.id)
+                        navigate('/admin/products')
+                        }
+                    })
+                      }}>
                       Delete
                     </Button>
                   </div>
