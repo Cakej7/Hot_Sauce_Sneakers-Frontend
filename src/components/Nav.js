@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router";
 
-const Nav = ({ cart, setCart, token, setToken }) => {
+const Nav = ({ setCart, token, setToken }) => {
     
   const navigate = useNavigate();
   const isAdmin = localStorage.getItem("isAdmin");
@@ -19,7 +19,6 @@ const Nav = ({ cart, setCart, token, setToken }) => {
     <div id="nav-bar">
       <Link to="/products">Products</Link>
       <Link to="/cart">Cart</Link>
-      {cart.length ? <Link to='/checkout'>Check Out</Link> : null}
       {token ? (
         <>
           <Link to="/orders">Orders</Link>

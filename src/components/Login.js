@@ -3,12 +3,12 @@ import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-import { addCartItem, fetchCartItems } from "../api";
+import { addCartItem } from "../api";
 
 //Import useState
 //Paramter token, setToken
 
-const Login = ({ cart, setCart, token, setToken }) => {
+const Login = ({ cart, setToken }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,8 +62,6 @@ const Login = ({ cart, setCart, token, setToken }) => {
                 await Promise.all(cart.map((item) => addCartItem(data.token, item.inventoryId, item.count)));
               }
 
-              const cartItems = await fetchCartItems(data.token);
-              setCart(cartItems);
               localStorage.removeItem('cart');
 
               navigate("/products");
