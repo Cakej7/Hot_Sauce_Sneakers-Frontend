@@ -16,24 +16,44 @@ import {
 } from "./components";
 
 const App = () => {
-
-  const [token, setToken] = useState(window.localStorage.getItem('token'));
+  const [token, setToken] = useState(window.localStorage.getItem("token"));
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
   return (
     <BrowserRouter>
       <Routes>
+        <Route
+          path="/"
+          element={<Layout cart={cart} token={token} setToken={setToken} />}
+        >
+          <Route
+            index
+            element={<Products products={products} setProducts={setProducts} />}
+          />
 
-        <Route path='/' element={<Layout cart={cart} token={token} setToken={setToken}/>}>
+          <Route
+            path="/products"
+            element={<Products products={products} setProducts={setProducts} />}
+          />
 
-          <Route index element={<Products products={products} setProducts={setProducts}/>} />
+          <Route
+            path="/products/:productId"
+            element={
+              <SingleProduct token={token} cart={cart} setCart={setCart} />
+            }
+          />
 
-          <Route path='/products' element={<Products products={products} setProducts={setProducts} />} />
-
-          <Route path='/products/:productId' element={<SingleProduct token={token} cart={cart} setCart={setCart}/>} />
-
-          <Route path='/createNewProductForm' element={<CreateNewProductForm products={products} setProducts={setProducts} />} />
+          <Route
+            path="/createNewProductForm"
+            element={
+              <CreateNewProductForm
+                token={token}
+                products={products}
+                setProducts={setProducts}
+              />
+            }
+          />
 
           {/* Only display when user is logged in as admin */}
           <Route path="/admin" element={<Admin token={token} />}>
@@ -41,6 +61,7 @@ const App = () => {
               path="/admin/new-product"
               element={
                 <CreateNewProductForm
+                  token={token}
                   products={products}
                   setProducts={setProducts}
                 />
@@ -53,12 +74,20 @@ const App = () => {
             <Route path="/admin/users" element={<AdminUsers token={token} />} />
           </Route>
 
-          <Route path='/cart' element={<Cart token={token} cart={cart} setCart={setCart}/>} />
+          <Route
+            path="/cart"
+            element={<Cart token={token} cart={cart} setCart={setCart} />}
+          />
 
-          {cart.length ? <Route path='/checkout' element={<CheckOut token={token} cart={cart} setCart={setCart}/>} /> : null}
+          {cart.length ? (
+            <Route
+              path="/checkout"
+              element={<CheckOut token={token} cart={cart} setCart={setCart} />}
+            />
+          ) : null}
 
           <Route path="/orders" element={<Orders />} />
-          
+
           {token ? null : (
             <Route path="/login" element={<Login setToken={setToken} />} />
           )}
