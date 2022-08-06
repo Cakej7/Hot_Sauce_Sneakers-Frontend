@@ -44,7 +44,7 @@ const AdminUsers = ({ token }) => {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  justifyContent: 'space-between',
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center" }}>

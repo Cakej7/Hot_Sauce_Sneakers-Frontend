@@ -14,7 +14,6 @@ import {
   AdminProducts,
   AdminUsers,
 } from "./components";
-import EditProductForm from "./components/AdminEditProduct";
 
 const App = () => {
 
@@ -51,7 +50,6 @@ const App = () => {
               path="/admin/products"
               element={<AdminProducts token={token} />}
             />
-            <Route path="/admin/editproduct/:productId" element={<EditProductForm token={token} products={products} setProducts={setProducts} />}/>
             <Route path="/admin/users" element={<AdminUsers token={token} />} />
           </Route>
 
