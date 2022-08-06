@@ -3,9 +3,7 @@ import { Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
-
-//Import useState
-//Paramter token, setToken
+import Swal from 'sweetalert2'
 
 const Login = ({ setToken }) => {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -36,8 +34,8 @@ const Login = ({ setToken }) => {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                  email: email,
-                  password: password,
+                  email,
+                  password,
                 }),
               }
             );
@@ -49,6 +47,13 @@ const Login = ({ setToken }) => {
             if (!response.ok || data?.error || data?.name === "TypeError") {
               throw new Error(data.message);
             } else {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Login succesful!',
+                showConfirmButton: false,
+                timer: 1500
+              })
               setToken(data.token);
               localStorage.setItem("token", data.token);
               localStorage.setItem("emai", data.user.email);
@@ -62,6 +67,11 @@ const Login = ({ setToken }) => {
             console.log(data);
           } catch (error) {
             // TODO: Show the error message on the page
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `Email and password didn't match our records, try again.`
+            })
             setErrorMessage(error.message);
             console.log(error);
           }

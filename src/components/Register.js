@@ -6,19 +6,71 @@ import { Link } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 const Register = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
 
   const navigate = useNavigate();
 
-  const handleError = () => {
+  const handlePasswordError = () => {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: `Passwords don't match!`
     })
+  }
+  const RegisterFetch = async (e) => {
+    e.preventDefault();
+
+    if (password.length < 5) {
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Password must be at least 5 characters.',
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
+    } 
+    else {
+      try {
+        const response = await fetch(
+          "http://localhost:3000/api/users/register",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          });
+    
+        const data = await response.json();
+        console.log(data)
+
+        if (!response.ok || data?.error) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `Email already in use.`
+          })
+          setErrorMessage(data.message);
+          throw new Error(data.message);
+        } else {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'New user created! Welcome!',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          setEmail("");
+          setPassword("");
+          navigate("/login");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
   }
 
   return (
@@ -32,41 +84,7 @@ const Register = () => {
     >
       <form
         id="registerForm"
-        onSubmit={async (e) => {
-          console.log("SUBMIT");
-          e.preventDefault();
-
-          try {
-            // const response = await fetch(apiUrl + "api/users/register", {
-            const response = await fetch(
-              "http://localhost:3000/api/users/register",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  email: email,
-                  password: password,
-                }),
-              }
-            );
-
-            const data = await response.json();
-
-            if (!response.ok || data?.error) {
-              setErrorMessage(data.message);
-              throw new Error(data.message);
-            } else {
-              setEmail("");
-              setPassword("");
-              navigate("/login");
-            }
-
-            console.log(data, "daata");
-          } catch (error) {
-            // TODO: Show the error message on the page
-            console.log(error);
-          }
-        }}
+        onSubmit={RegisterFetch}
       >
         <Box
           sx={{
@@ -77,10 +95,8 @@ const Register = () => {
             maxWidth: "100%",
           }}
         >
-          {errorMessage && <Typography>{errorMessage}</Typography>}
+          {/* {errorMessage && <Typography>{errorMessage}</Typography>} */}
           <TextField
-            //       <Link to="/login">Already had an account? Login here!</Link>
-            // helperText="Already have an account? Login Here"
             helperText=" "
             id="demo-helper-text-aligned"
             label="Email"
@@ -121,7 +137,7 @@ const Register = () => {
               Register
             </Button>
             :
-            <Button variant="contained" onClick={handleError}>
+            <Button variant="contained" onClick={handlePasswordError}>
               Register
             </Button>
           }

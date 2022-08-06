@@ -14,6 +14,7 @@ import {
   AdminProducts,
   AdminUsers,
 } from "./components";
+import EditProductForm from "./components/AdminEditProduct";
 
 const App = () => {
 
@@ -50,6 +51,7 @@ const App = () => {
               path="/admin/products"
               element={<AdminProducts token={token} />}
             />
+            <Route path="/admin/editproduct/:productId" element={<EditProductForm token={token} products={products} setProducts={setProducts} />}/>
             <Route path="/admin/users" element={<AdminUsers token={token} />} />
           </Route>
 
@@ -69,7 +71,7 @@ const App = () => {
             />
           )}
 
-          <Route path="*" element={<Navigate to="/" replace={true} />} />
+          <Route path="*" element={<Navigate to="/" replace={true}  />} />
         </Route>
       </Routes>
     </BrowserRouter>

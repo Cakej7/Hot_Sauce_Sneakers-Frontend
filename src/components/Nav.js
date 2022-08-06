@@ -12,8 +12,7 @@ const Nav = ({ cart, token, setToken }) => {
     localStorage.clear();
     navigate("/login");
   };
-
-  // display different links based on token
+  
   return (
     <div id="nav-bar">
       <Link to="/products">Products</Link>
@@ -23,7 +22,7 @@ const Nav = ({ cart, token, setToken }) => {
         <>
           <Link to="/orders">Orders</Link>
           <Link to="/" onClick={logout}>Logout</Link>
-          {isAdmin === true ? 
+          {isAdmin === 'true' ? 
           <Link to="/admin/users">Admin</Link>
             :
             null
