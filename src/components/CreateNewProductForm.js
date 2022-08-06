@@ -15,8 +15,9 @@ import {
   InputLabel,
   NativeSelect,
 } from "@mui/material";
+import { addInventory, fetchBrands, updateInventory } from "../api";
 
-const CreateNewProductForm = ({ products, setProducts }) => {
+const CreateNewProductForm = ({ token, products, setProducts }) => {
   const tempToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJqYWNvYkBhZG1pbi5jb20iLCJpYXQiOjE2NTkwNjQ3NzQsImV4cCI6MTY1OTY2OTU3NH0.IJACOJ5HzOhu9u9972Lm2vpJp6x1eSaIBcYDIWs9vRU";
   let navigate = useNavigate();
@@ -73,24 +74,12 @@ const CreateNewProductForm = ({ products, setProducts }) => {
     }
   };
 
-  const fetchBrands = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/brands`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const result = await response.json();
-      console.log(result);
-      setBrands(result);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
-    fetchBrands();
+    fetchBrands()
+      .then((response) => {
+        setBrands(response);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const onCreateProductSubmit = async (e) => {
@@ -117,6 +106,13 @@ const CreateNewProductForm = ({ products, setProducts }) => {
         setProductBrand("");
         setProductPrice("");
         setProductImage("");
+        addInventory(token, data.id, 1, 10)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
 
       console.log(data, "daata");
