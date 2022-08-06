@@ -185,14 +185,14 @@ const AdminProducts = ({ token }) => {
 
         {/* Edit Product Dialog */}
         <Dialog
-          fullWidth="true"
+          fullWidth
           maxWidth="md"
           open={editProductModal}
           onClose={onEditProductModalClose}
         >
           <DialogTitle>Edit Product</DialogTitle>
           <DialogContent>
-            <form>
+            <div>
               <Stack spacing={2}>
                 {errorMessage && <Typography>{errorMessage}</Typography>}
                 <form
@@ -276,13 +276,22 @@ const AdminProducts = ({ token }) => {
                     id="pay-button"
                     variant="contained"
                     size="large"
-                    onClick={onEditProductSubmit}
+                    onClick={async () => {
+                      onEditProductSubmit()
+                      Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'Product updated',
+                        showConfirmButton: false,
+                        timer: 2000
+                      })
+                    }}
                   >
                     Update Product
                   </Button>
                 </form>
               </Stack>
-            </form>
+            </div>
           </DialogContent>
         </Dialog>
       </Container>

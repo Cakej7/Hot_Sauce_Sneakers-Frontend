@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Container, Box, Paper, Stack, styled, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+
+const isAdmin = localStorage.getItem("isAdmin");
 
 const AdminUsers = ({ token }) => {
+
+  let navigate = useNavigate()
+  
+
   const [users, setUsers] = useState([]);
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -28,6 +36,42 @@ const AdminUsers = ({ token }) => {
     }
   };
 
+  const userDeleteFetch = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/admin/users/deactivate/${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      const result = await response.json()
+      console.log(result)
+      userInfoFetch()
+      return result
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const userUpgradeToAdminFetch = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/admin/users/upgrade/${userId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      const result = await response.json()
+      console.log(result)
+      userInfoFetch()
+      return result
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   useEffect(() => {
     userInfoFetch();
   }, []);
@@ -50,14 +94,70 @@ const AdminUsers = ({ token }) => {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div>
                     <h2>Email: {user.email}</h2>
-                    <h5>{`Is Admin: ${user.isAdmin}`}</h5>
-                    <h5>{`Is Active User: ${user.isActive}`}</h5>
+                    <h4>{`Is Admin: ${user.isAdmin}`}</h4>
+                    <h4>{`Is Active User: ${user.isActive}`}</h4>
                   </div>
                   <div style={{ display: "flex" }}>
-                      <Button>Edit</Button>
-                      <Button>
-                        Delete
+
+                    {user.isAdmin === false ?
+                      <Button
+                        onClick={async (e) => {
+                          e.preventDefault()
+                          Swal.fire({
+                            title: 'Are you sure you want to upgrade this user to admin?',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, upgrade user'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                            Swal.fire(
+                                'Upgraded!',
+                                'User upgraded to admin.',
+                                'success'
+                            )
+                            userUpgradeToAdminFetch(user.id)
+                            console.log(user.id)
+                            navigate('/admin/users')
+                            }
+                          })
+                        }}
+                        >Upgrade user to Admin
                       </Button>
+                    :
+                    null
+                  }
+                  
+                  {user.isActive === true ? 
+                    <Button
+                    onClick={async (e) => {
+                      e.preventDefault()
+                      Swal.fire({
+                        title: 'Are you sure you want to deactivate this user?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, deactivate user'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                        Swal.fire(
+                            'Deleted!',
+                            'User deleted.',
+                            'success'
+                        )
+                        userDeleteFetch(user.id)
+                        console.log(user.id)
+                        navigate('/admin/users')
+                        }
+                    })
+                    }}
+                    >Deactivate user</Button>
+                    :
+                    null
+                  }
+                      
                     </div>
                 </div>
               </Item>

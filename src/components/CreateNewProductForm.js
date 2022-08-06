@@ -1,85 +1,44 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Box,
-  Stack,
-  styled,
-  Paper,
-  Divider,
   TextField,
   Button,
-  Select,
-  MenuItem,
   FormControl,
   InputLabel,
   NativeSelect,
 } from "@mui/material";
-import { addInventory, fetchBrands, updateInventory } from "../api";
+import Swal from "sweetalert2";
 
-const CreateNewProductForm = ({ token, products, setProducts }) => {
-  const tempToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiZW1haWwiOiJqYWNvYkBhZG1pbi5jb20iLCJpYXQiOjE2NTkwNjQ3NzQsImV4cCI6MTY1OTY2OTU3NH0.IJACOJ5HzOhu9u9972Lm2vpJp6x1eSaIBcYDIWs9vRU";
+const CreateNewProductForm = () => {
+
   let navigate = useNavigate();
+
   const [brands, setBrands] = useState([]);
   const [name, setProductName] = useState("");
   const [price, setProductPrice] = useState(null);
   const [brand, setProductBrand] = useState(null);
   const [image, setProductImage] = useState("");
 
-  const createProductFetch = async () => {
+  const fetchBrands = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/products`, {
-        method: "POST",
+      const response = await fetch(`http://localhost:3000/api/brands`, {
+        method: "GET",
         headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${tempToken}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-          price,
-          brandId: brand,
-          image,
-        }),
       });
       const result = await response.json();
       console.log(result);
-      // navigate(`../products`)
+      setBrands(result);
     } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // post method for api/inventory to add new product to stock
-  const addProductToInventory = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/api/inventory`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${tempToken}`,
-        },
-        body: JSON.stringify({
-          name,
-          price,
-          brandId: brand,
-          image,
-        }),
-      });
-      const result = await response.json();
-      console.log(result);
-      // navigate(`../products`)
-    } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
   useEffect(() => {
-    fetchBrands()
-      .then((response) => {
-        setBrands(response);
-      })
-      .catch((err) => console.log(err));
+    fetchBrands();
   }, []);
 
   const onCreateProductSubmit = async (e) => {
@@ -106,13 +65,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
         setProductBrand("");
         setProductPrice("");
         setProductImage("");
-        addInventory(token, data.id, 1, 10)
-          .then((response) => {
-            console.log(response);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        navigate("/admin/products")
       }
 
       console.log(data, "daata");
@@ -140,7 +93,15 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
                 flexDirection: "column",
                 alignItems: "center",
               }}
-              onSubmit={(e) => onCreateProductSubmit(e)}
+              onSubmit={(e) => {onCreateProductSubmit(e)
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Product added',
+                  showConfirmButton: false,
+                  timer: 2000
+              })}
+              }
             >
               <div style={{ width: "100%" }}>
                 <h3 style={{ textAlign: "center" }}>Product Name</h3>
@@ -220,48 +181,6 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
           </div>
         </Box>
       </Container>
-
-      {/* <form
-        onSubmit={(e) => {
-            e.preventDefault()
-            createProductFetch()
-        }}
-        >
-                <label>Product name: </label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => { setProductName(e.target.value) }}
-                />
-
-                <label>Product price: </label>
-                <input
-                    type="number"
-                    required
-                    onChange={(e) => { setProductPrice(e.target.value) }}
-                />
-
-                <label>Product brand: </label>
-                map through the brands and display them as a dropdown menu
-
-                <label>Product image: </label>
-                <input
-                    type="text"
-                    required
-                    onChange={(e) => { setProductImage(e.target.value) }}
-                />  
-
-                <button
-                onClick={async (e) => {
-                    e.preventDefault();
-                    const productToAdd = await createProductFetch();
-                    setProducts([...products, productToAdd]);
-                    console.log(products)
-                    await addProductToInventory(productToAdd)
-                }}>
-                    Submit
-                </button>
-            </form> */}
     </>
   );
 };
