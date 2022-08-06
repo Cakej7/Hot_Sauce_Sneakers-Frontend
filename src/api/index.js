@@ -128,3 +128,48 @@ export const updateInventory = async (productId, sizeId, count) => {
         console.error(e);
     }
 }
+
+// create order when checkout
+export const createOrder = async (token) => {
+    const url = `${BASE_URL}/orders`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
+
+// add items to order history
+export const addItemToOrderHistory = async (token, orderId, inventoryId, count, price) => {
+    const url = `${BASE_URL}/orders/${orderId}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                inventoryId,
+                count,
+                price
+            })
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}

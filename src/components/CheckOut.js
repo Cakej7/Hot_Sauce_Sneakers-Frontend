@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Box, Stack, styled, Paper, Divider, TextField, Button, Modal } from "@mui/material";
-import { deleteCartItem, updateInventory, fetchCartItems, getInventoryByProductIdAndSizeId } from "../api";
+import { deleteCartItem, updateInventory, fetchCartItems, getInventoryByProductIdAndSizeId,
+         createOrder, addItemToOrderHistory } from "../api";
 import { useNavigate } from "react-router-dom";
 
 const CheckOut = ({token, cart, setCart}) => {
@@ -40,6 +41,8 @@ const CheckOut = ({token, cart, setCart}) => {
         await Promise.all(cart.map((item) => updateInventory(item.productId, item.sizeId, item.count)));
 
         if(token) {
+            const order = await createOrder(token);
+            await Promise.all(cart.map((item) => addItemToOrderHistory(token, order.id, item.inventoryId, item.count, item.price)));
             await Promise.all(cart.map((item) => deleteCartItem(token, item.inventoryId)));
         }
 
