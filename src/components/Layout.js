@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 
 
-const Layout = ({ cart, token, setToken }) => {
+const Layout = ({ setCart, token, setToken }) => {
   // basic layout header, content, footer  
   return (
         <>
-          <Header cart={cart} token={token} setToken={setToken}/>
+          <Header setCart={setCart} token={token} setToken={setToken}/>
           <Outlet />
           <Footer />
         </>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import {
   Layout,
@@ -16,26 +16,22 @@ import {
 } from "./components";
 
 const App = () => {
-  const [token, setToken] = useState(window.localStorage.getItem("token"));
+
+  const [token, setToken] = useState(localStorage.getItem('token'));
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(JSON.parse(localStorage.getItem('cart') || "[]"));
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={<Layout cart={cart} token={token} setToken={setToken} />}
-        >
-          <Route
-            index
-            element={<Products products={products} setProducts={setProducts} />}
-          />
 
-          <Route
-            path="/products"
-            element={<Products products={products} setProducts={setProducts} />}
-          />
+        <Route path='/' element={<Layout setCart={setCart} token={token} setToken={setToken}/>}>
+
+          <Route index element={<Products products={products} setProducts={setProducts}/>} />
+
+          <Route path='/products' element={<Products products={products} setProducts={setProducts} />} />
+
+
 
           <Route
             path="/products/:productId"
@@ -79,17 +75,13 @@ const App = () => {
             element={<Cart token={token} cart={cart} setCart={setCart} />}
           />
 
-          {cart.length ? (
-            <Route
-              path="/checkout"
-              element={<CheckOut token={token} cart={cart} setCart={setCart} />}
-            />
-          ) : null}
+
+          <Route path='/checkout' element={<CheckOut token={token} cart={cart} setCart={setCart}/>} />
 
           <Route path="/orders" element={<Orders />} />
 
           {token ? null : (
-            <Route path="/login" element={<Login setToken={setToken} />} />
+            <Route path="/login" element={<Login cart={cart} setToken={setToken} />} />
           )}
           {token ? null : (
             <Route

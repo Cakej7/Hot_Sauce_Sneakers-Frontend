@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Box, Stack, styled, Paper, Divider, TextField, Button, Modal } from "@mui/material";
-import { deleteCartItem, updateInventory } from "../api";
+import { deleteCartItem, updateInventory, fetchCartItems, getInventoryByProductIdAndSizeId,
+         createOrder, addItemToOrderHistory } from "../api";
+import { useNavigate } from "react-router-dom";
 
 const CheckOut = ({token, cart, setCart}) => {
+
+    let navigate = useNavigate();
 
     const Item = styled(Paper)(({ theme }) => ({
         backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -33,12 +37,19 @@ const CheckOut = ({token, cart, setCart}) => {
         setZip('');
         setEmail('');
         setPhone('');
+
         await Promise.all(cart.map((item) => updateInventory(item.productId, item.sizeId, item.count)));
+
         if(token) {
+            const order = await createOrder(token);
+            await Promise.all(cart.map((item) => addItemToOrderHistory(token, order.id, item.inventoryId, item.count, item.price)));
             await Promise.all(cart.map((item) => deleteCartItem(token, item.inventoryId)));
-            
         }
+
         setCart([]);
+        localStorage.removeItem('cart');
+
+        navigate("/products", { replace: true });
     }
 
     const [name, setName] = useState('');
@@ -61,9 +72,55 @@ const CheckOut = ({token, cart, setCart}) => {
     let tax = parseFloat((subtotal * 0.09).toFixed(2));
     let total = subtotal + tax;
 
+    const [disabledCheckout, setDisabledCheckout] = useState(false);
+
+    const fetchCart = async () => {
+        const cartItems = await fetchCartItems(token);
+        const inStockCartItems = await inStockCheck(cartItems);
+        setCart(inStockCartItems);
+    }
+
+    const inStockCheckHelper= async () => {
+        const items = [...cart];
+        const inStockCartItems = await inStockCheck(items);
+        setCart(inStockCartItems);
+    }
+
+    const inStockCheck = async (cartItems) => {
+        return await Promise.all(cartItems.map(async (item) => {
+            const inventory = await getInventoryByProductIdAndSizeId(item.productId, item.sizeId);
+            if(inventory.stock > 0) {
+                item.inStock = true;
+            }
+            else {
+                item.inStock = false;
+                setDisabledCheckout(true);
+            }
+            return item;
+        }))
+    }
+
+    useEffect(() => {
+        if(token) {
+            fetchCart();
+        }
+        else {
+            inStockCheckHelper();
+        }
+        // eslint-disable-next-line
+    }, []);
+
     return (
         <Container maxWidth="md">
             <h2 style={{textAlign: 'center'}}>Checkout</h2>
+            {disabledCheckout ? 
+            <h3 style={{textAlign: 'center', color: 'red'}}>
+                Sorry, some items in you cart are currently out of stock. 
+                Please remove them from your cart.
+            </h3>
+            : null
+            }
+            {cart.length ?
             <Box sx={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
                 <Stack spacing={1} sx={{ width: '40%' }}>
                     <h3 style={{textAlign: 'center'}}>Summary</h3>
@@ -78,6 +135,7 @@ const CheckOut = ({token, cart, setCart}) => {
                             <Item key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <img src={item.image} alt={item.name} width="100" height="70" />
                                 <div>
+                                    {item.inStock ? null : <p style={{color: 'red'}}>Out of Stock</p>}
                                     <p>Name: {item.name}</p>
                                     <p>Brand: {item.brand}</p>
                                     <p>Price: {item.price}</p>
@@ -121,7 +179,7 @@ const CheckOut = ({token, cart, setCart}) => {
                             <TextField label="State" variant="outlined" margin="normal" type="text" sx={{ width: '20%', marginLeft: '10px', marginRight: '10px' }} disabled/>
                             <TextField label="ZIP Code" variant="outlined" margin="normal" type="text" sx={{ width: '35%' }} disabled/>
                         </div>
-                        <Button id='pay-button' variant="contained" size="large" type="submit">Submit</Button>
+                        <Button disabled={disabledCheckout} id='pay-button' variant="contained" size="large" type="submit">Submit</Button>
                     </form>
                 </div>
                 <Modal
@@ -160,6 +218,8 @@ const CheckOut = ({token, cart, setCart}) => {
                     </Box>
                 </Modal>
             </Box>
+            : <h3>Nothing to checkout!</h3>
+            }
         </Container>
     )
 }

@@ -8,7 +8,6 @@ import { fetchCartItems, updateCartItem, deleteCartItem, getInventoryByProductId
 
 const Cart = ({ token, cart, setCart }) => {
 
-    //const [cart, setCart] = useState([]);
     let navigate = useNavigate();
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -41,7 +40,8 @@ const Cart = ({ token, cart, setCart }) => {
         if(inventory.stock >= event.target.value) {
             if(token) {
                 const updatedCartItems = await updateCartItem(token, inventoryId, event.target.value);
-                setCart(updatedCartItems);
+                const inStockCartItems = await inStockCheck(updatedCartItems);
+                setCart(inStockCartItems);
             }
             else {
                 const items = [...cart];
@@ -52,6 +52,7 @@ const Cart = ({ token, cart, setCart }) => {
                     }
                 }
                 setCart(items);
+                localStorage.setItem('cart', JSON.stringify(items));
             }
         }
         else {
@@ -64,7 +65,8 @@ const Cart = ({ token, cart, setCart }) => {
     const handleDeleteItem = async (inventoryId) => {
         if(token) {
             const updatedCartItems = await deleteCartItem(token, inventoryId);
-            setCart(updatedCartItems);
+            const inStockCartItems = await inStockCheck(updatedCartItems);
+            setCart(inStockCartItems);
         }
         else {
             const items = [...cart];
@@ -78,17 +80,45 @@ const Cart = ({ token, cart, setCart }) => {
 
             items.splice(index, 1);
             setCart(items);
+            localStorage.setItem('cart', JSON.stringify(items));
+
+            if(items.length === 0) {
+                localStorage.removeItem('cart');
+            }
         }
     }
 
     const fetchCart = async () => {
         const cartItems = await fetchCartItems(token);
-        setCart(cartItems);
+        const inStockCartItems = await inStockCheck(cartItems);
+        setCart(inStockCartItems);
+    }
+
+    const inStockCheckHelper= async () => {
+        const items = [...cart];
+        const inStockCartItems = await inStockCheck(items);
+        setCart(inStockCartItems);
+    }
+
+    const inStockCheck = async (cartItems) => {
+        return await Promise.all(cartItems.map(async (item) => {
+            const inventory = await getInventoryByProductIdAndSizeId(item.productId, item.sizeId);
+            if(inventory.stock > 0) {
+                item.inStock = true;
+            }
+            else {
+                item.inStock = false;
+            }
+            return item;
+        }))
     }
 
     useEffect(() => {
         if(token) {
             fetchCart();
+        }
+        else {
+            inStockCheckHelper();
         }
         // eslint-disable-next-line
     }, []);
@@ -112,6 +142,7 @@ const Cart = ({ token, cart, setCart }) => {
                                     </div>
                                 </div>
                                 <div style={{display: 'flex', alignItems: 'center'}}>
+                                    {item.inStock ?
                                     <FormControl sx={{ width: '100px' }}>
                                         <InputLabel variant="standard" htmlFor="select-quantity">Quantity</InputLabel>
                                         <NativeSelect
@@ -126,13 +157,17 @@ const Cart = ({ token, cart, setCart }) => {
                                             <option value={30}>30</option>
                                         </NativeSelect>
                                     </FormControl>
+                                    : <p style={{color: 'red'}}>Out of Stock</p>
+                                    }
                                     <DeleteIcon id='remove-button' fontSize="large" onClick={() => handleDeleteItem(item.inventoryId)}/>
                                 </div>
                             </Item>
                         )
                     })}
                 </Stack>
-                <Button id='checkout-button' variant="contained" size="large" onClick={handleCheckout}>Checkout</Button>
+                <Button id='checkout-button' variant="contained" size="large" onClick={handleCheckout}>
+                    Checkout
+                </Button>
                 <Snackbar open={openStockAlert} autoHideDuration={6000} onClose={handleStockAlertClose}
                           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
                     <Alert onClose={handleStockAlertClose} severity="error" sx={{ width: '100%' }}>

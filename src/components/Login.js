@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { addCartItem } from "../api";
 import Swal from 'sweetalert2'
 
-const Login = ({ setToken }) => {
+const Login = ({ cart, setToken }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,6 +62,13 @@ const Login = ({ setToken }) => {
               localStorage.setItem("isAdmin", data.user.isAdmin);
               setEmail("");
               setPassword("");
+
+              if(cart.length) {
+                await Promise.all(cart.map((item) => addCartItem(data.token, item.inventoryId, item.count)));
+              }
+
+              localStorage.removeItem('cart');
+
               navigate("/products");
             }
 

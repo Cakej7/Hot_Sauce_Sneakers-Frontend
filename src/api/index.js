@@ -127,25 +127,71 @@ export const addInventory = async (token, productId, sizeId, stock) => {
 
 // update inventory for checkout
 export const updateInventory = async (productId, sizeId, count) => {
-  const url = `${BASE_URL}/inventory/${productId}`;
+    const url = `${BASE_URL}/inventory/${productId}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                sizeId,
+                count
+            })
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
 
-  try {
-    const response = await fetch(url, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sizeId,
-        count,
-      }),
-    });
-    const data = await response.json();
-    return data;
-  } catch (e) {
-    console.error(e);
-  }
-};
+// create order when checkout
+export const createOrder = async (token) => {
+    const url = `${BASE_URL}/orders`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
+
+// add items to order history
+export const addItemToOrderHistory = async (token, orderId, inventoryId, count, price) => {
+    const url = `${BASE_URL}/orders/${orderId}`;
+    
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                inventoryId,
+                count,
+                price
+            })
+        });
+        const data = await response.json();
+        return data;
+    }
+    catch(e) {
+        console.error(e);
+    }
+}
 
 // fetch product brands
 export const fetchBrands = async () => {
