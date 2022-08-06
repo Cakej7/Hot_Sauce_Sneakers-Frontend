@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Box, Paper, Stack, styled } from "@mui/material";
+import { Container, Box, Paper, Stack, styled, Button } from "@mui/material";
 
 const AdminUsers = ({ token }) => {
   const [users, setUsers] = useState([]);
@@ -21,7 +21,7 @@ const AdminUsers = ({ token }) => {
         },
       });
       const result = await response.json();
-      console.log(result);
+      // console.log(result);
       setUsers(result);
     } catch (err) {
       console.error(err);
@@ -44,16 +44,21 @@ const AdminUsers = ({ token }) => {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "space-between",
+                  justifyContent: 'space-between',
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <div>
-                    <h2>Username: {user.username}</h2>
-                    <h4>Email: {user.email}</h4>
-                    <p>Is Admin: ${user.isAdmin}</p>
-                    <p>Is Active User: ${user.isActive}</p>
+                    <h2>Email: {user.email}</h2>
+                    <h5>{`Is Admin: ${user.isAdmin}`}</h5>
+                    <h5>{`Is Active User: ${user.isActive}`}</h5>
                   </div>
+                  <div style={{ display: "flex" }}>
+                      <Button>Edit</Button>
+                      <Button>
+                        Delete
+                      </Button>
+                    </div>
                 </div>
               </Item>
             );

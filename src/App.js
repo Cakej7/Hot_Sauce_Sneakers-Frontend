@@ -31,9 +31,25 @@ const App = () => {
 
           <Route path='/products' element={<Products products={products} setProducts={setProducts} />} />
 
-          <Route path='/products/:productId' element={<SingleProduct token={token} cart={cart} setCart={setCart}/>} />
 
-          <Route path='/createNewProductForm' element={<CreateNewProductForm products={products} setProducts={setProducts} />} />
+
+          <Route
+            path="/products/:productId"
+            element={
+              <SingleProduct token={token} cart={cart} setCart={setCart} />
+            }
+          />
+
+          <Route
+            path="/createNewProductForm"
+            element={
+              <CreateNewProductForm
+                token={token}
+                products={products}
+                setProducts={setProducts}
+              />
+            }
+          />
 
           {/* Only display when user is logged in as admin */}
           <Route path="/admin" element={<Admin token={token} />}>
@@ -41,6 +57,7 @@ const App = () => {
               path="/admin/new-product"
               element={
                 <CreateNewProductForm
+                  token={token}
                   products={products}
                   setProducts={setProducts}
                 />
@@ -53,12 +70,16 @@ const App = () => {
             <Route path="/admin/users" element={<AdminUsers token={token} />} />
           </Route>
 
-          <Route path='/cart' element={<Cart token={token} cart={cart} setCart={setCart}/>} />
+          <Route
+            path="/cart"
+            element={<Cart token={token} cart={cart} setCart={setCart} />}
+          />
+
 
           <Route path='/checkout' element={<CheckOut token={token} cart={cart} setCart={setCart}/>} />
 
           <Route path="/orders" element={<Orders />} />
-          
+
           {token ? null : (
             <Route path="/login" element={<Login cart={cart} setToken={setToken} />} />
           )}
@@ -69,7 +90,7 @@ const App = () => {
             />
           )}
 
-          <Route path="*" element={<Navigate to="/" replace={true} />} />
+          <Route path="*" element={<Navigate to="/" replace={true}  />} />
         </Route>
       </Routes>
     </BrowserRouter>

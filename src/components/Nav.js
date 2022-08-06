@@ -13,8 +13,7 @@ const Nav = ({ setCart, token, setToken }) => {
     setCart([]);
     navigate("/login");
   };
-
-  // display different links based on token
+  
   return (
     <div id="nav-bar">
       <Link to="/products">Products</Link>
@@ -22,11 +21,15 @@ const Nav = ({ setCart, token, setToken }) => {
       {token ? (
         <>
           <Link to="/orders">Orders</Link>
-          <button onClick={logout}>Logout</button>
-          {isAdmin && <Link to="/admin/users">Admin</Link>}
+          <Link to="/" onClick={logout}>Logout</Link>
+          {isAdmin === 'true' ? 
+          <Link to="/admin/users">Admin</Link>
+            :
+            null
+          }
         </>
       ) : (
-        <Link to="/login">Login/Register</Link>
+        <Link to="/login">Sign In</Link>
       )}
     </div>
   );

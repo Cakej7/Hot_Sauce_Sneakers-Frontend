@@ -1,8 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Container, Box, Paper, Stack, styled, Button } from "@mui/material";
+import {
+  Container,
+  Box,
+  Paper,
+  Stack,
+  styled,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  NativeSelect,
+} from "@mui/material";
+import { fetchBrands, updateProduct } from "../api";
+import Swal from "sweetalert2";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminProducts = ({ token }) => {
+
+  let navigate = useNavigate()
+
   const [products, setProducts] = useState([]);
+  const [brands, setBrands] = useState([]);
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState(null);
+  const [productBrand, setProductBrand] = useState(null);
+  const [productImage, setProductImage] = useState("");
+  const [editProductModal, setEditProductModal] = useState(false);
+  const [editProductId, setEditProductId] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -55,6 +84,41 @@ const AdminProducts = ({ token }) => {
     }
   };
 
+  const onEditProductModalOpen = (product) => {
+    fetchBrands()
+      .then((response) => {
+        setBrands(response);
+      })
+      .catch((err) => console.log(err));
+    setEditProductId(product.id);
+    setProductName(product.name);
+    setProductPrice(product.price);
+    setProductImage(product.image);
+    setProductBrand(product.brandId);
+    setEditProductModal(true);
+  };
+
+  const onEditProductModalClose = () => {
+    setEditProductModal(false);
+  };
+
+  const onEditProductSubmit = () => {
+    updateProduct(
+      editProductId,
+      productName,
+      productPrice,
+      productBrand,
+      productImage
+    )
+      .then((response) => {
+        onEditProductModalClose();
+        fetchProducts();
+      })
+      .catch((err) => {
+        setErrorMessage(err);
+      });
+  };
+
   return (
     <>
       <Container maxWidth="md">
@@ -83,8 +147,33 @@ const AdminProducts = ({ token }) => {
                     </div>
                   </div>
                   <div style={{ display: "flex" }}>
-                    <Button>Edit</Button>
-                    <Button onClick={() => onDeleteProduct(product.id)}>
+
+                    <Button onClick={() => onEditProductModalOpen(product)}>
+                      Edit
+                    </Button>
+                    <Button onClick={async(e) => {
+                      e.preventDefault()
+                      Swal.fire({
+                        title: 'Are you sure you want to delete this product?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                          Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Product deleted',
+                            showConfirmButton: false,
+                            timer: 1000
+                          })
+                        onDeleteProduct(product.id)
+                        navigate('/admin/products')
+                        }
+                    })
+                      }}>
                       Delete
                     </Button>
                   </div>
@@ -93,6 +182,109 @@ const AdminProducts = ({ token }) => {
             })}
           </Stack>
         </Box>
+
+        {/* Edit Product Dialog */}
+        <Dialog
+          fullWidth="true"
+          maxWidth="md"
+          open={editProductModal}
+          onClose={onEditProductModalClose}
+        >
+          <DialogTitle>Edit Product</DialogTitle>
+          <DialogContent>
+            <form>
+              <Stack spacing={2}>
+                {errorMessage && <Typography>{errorMessage}</Typography>}
+                <form
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ width: "100%" }}>
+                    <h3 style={{ textAlign: "center" }}>Product Name</h3>
+                    <TextField
+                      label="Product Name"
+                      variant="outlined"
+                      margin="normal"
+                      type="text"
+                      fullWidth
+                      value={productName}
+                      required
+                      onChange={(e) => {
+                        setProductName(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <h3 style={{ textAlign: "center" }}>Product Price</h3>
+                    <TextField
+                      label="Product Price"
+                      variant="outlined"
+                      margin="normal"
+                      type="text"
+                      fullWidth
+                      value={productPrice}
+                      required
+                      onChange={(e) => {
+                        setProductPrice(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <h3 style={{ textAlign: "center" }}>Product Image</h3>
+                    <TextField
+                      label="Image URL"
+                      variant="outlined"
+                      margin="normal"
+                      type="text"
+                      value={productImage}
+                      fullWidth
+                      required
+                      onChange={(e) => {
+                        setProductImage(e.target.value);
+                      }}
+                    />
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <h3 style={{ textAlign: "center" }}>Brand</h3>
+                    <FormControl sx={{ width: "100%", marginBottom: "10px" }}>
+                      <InputLabel variant="standard" htmlFor="select-quantity">
+                        Select Brand
+                      </InputLabel>
+                      <NativeSelect
+                        inputProps={{ name: "quantity", id: "select-quantity" }}
+                        fullWidth
+                        value={productBrand}
+                        onChange={(e) => {
+                          setProductBrand(e.target.value);
+                        }}
+                      >
+                        <option>Select Brand</option>
+                        {brands.map((brand) => {
+                          return (
+                            <option key={brand.id} value={brand.id}>
+                              {brand.name}
+                            </option>
+                          );
+                        })}
+                      </NativeSelect>
+                    </FormControl>
+                  </div>
+                  <Button
+                    id="pay-button"
+                    variant="contained"
+                    size="large"
+                    onClick={onEditProductSubmit}
+                  >
+                    Update Product
+                  </Button>
+                </form>
+              </Stack>
+            </form>
+          </DialogContent>
+        </Dialog>
       </Container>
     </>
   );
