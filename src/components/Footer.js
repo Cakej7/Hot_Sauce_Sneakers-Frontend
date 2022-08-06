@@ -3,7 +3,8 @@ import React from "react";
 const Footer = () => {
     return (
         <div id='footer'>
-            <h3>Footer</h3>
+            <h3>Hot Sauce Sneakers is a student project.</h3>
+            <p>This site was built by Junwei Liang, Emily Merritt, Alexis Muller and Jacob Woehrle, as a capstone project for Fullstack Academy.</p>
         </div>
     )
 }
