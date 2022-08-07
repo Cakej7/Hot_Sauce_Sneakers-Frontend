@@ -124,10 +124,10 @@ const Cart = ({ token, cart, setCart }) => {
     }, []);
 
     return (
-        <Container maxWidth="md">
-            <h2 style={{textAlign: 'center'}}>Cart</h2>
+        <Container maxWidth="md" style={{minHeight: '50vh', display: 'relative'}}>
+            <h2 style={{textAlign: 'center', margin: '25px'}}>Cart</h2>
             {cart.length ? 
-            <Box sx={{ height: '100%' }}> 
+            <Box sx={{ height: '100%'}}> 
                 <Stack spacing={2}>
                     {cart.map((item, index) => {
                         return (
@@ -175,7 +175,7 @@ const Cart = ({ token, cart, setCart }) => {
                     </Alert>
                 </Snackbar>
             </Box>
-            : <h3>Your cart is empty!</h3>
+            : <h3 style={{textAlign: 'center', margin: '50px'}}>Your cart is empty! Check out the products page to add items to your cart!</h3>
             }
         </Container>
     )

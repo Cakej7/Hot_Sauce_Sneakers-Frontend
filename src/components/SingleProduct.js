@@ -114,8 +114,8 @@ const SingleProduct = ({ token, cart, setCart }) => {
 
     return (
         <Container maxWidth="sm">
-            <Box sx={{ height: '100vh',display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h2>{singleProduct.name}</h2>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <h2 style={{marginTop: '15px'}}>{singleProduct.name}</h2>
                 <img src={singleProduct.image} alt={singleProduct.name} width="100%" height="395px"></img>
                 <h3 style={{marginTop: '15px'}}>Brand: {singleProduct.brand}</h3>
                 <h3 style={{marginTop: '15px', marginBottom: '15px'}}>Price: {singleProduct.price}</h3>

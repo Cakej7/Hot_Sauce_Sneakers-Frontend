@@ -1,6 +1,10 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 
 
 const Products = ({ products, setProducts }) => {
@@ -14,27 +18,39 @@ const Products = ({ products, setProducts }) => {
     }, [])
 
     return (
-        <>
+        <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
             {
                 products.map(({ id, name, brand, image, price }) => {
                     return (
-                        <div key={id}
-                            style={{
-                                border: '1px solid black',
-                                margin: '5px',
-                            }}
-                        > 
-                            <Link to={`/products/${id}`}>
-                                <img src={image} alt="" width="250" height="200"></img>
-                                <h1>{brand}</h1>
-                                <h3>{name}</h3>
-                                <h2>{price}</h2>
-                            </Link>
+                        <div key={id} >
+                            <Card  sx={{ maxWidth: 550, minHeight: '65vh', margin: '10px'}}>
+                                <Link to={`/products/${id}`}>
+                                    <CardMedia
+                                        component="img"
+                                        height='auto'
+                                        image={image}
+                                        alt="green iguana"
+
+                                    />
+                                    <CardContent style={{textAlign: 'center'}}>
+                                        <Typography gutterBottom variant="h5" component="div">
+                                        {name}
+                                        </Typography>
+                                        <Typography style={{margin: '10px'}} variant="h5" color="black">
+                                        {brand}
+                                        </Typography>
+                                        <Typography variant="h5" color="black">
+                                        {price}
+                                        </Typography>
+                                    </CardContent>
+                                </Link>
+                            </Card>
                         </div>
+                        
                     )
                 })
             }
-        </>
+        </div>
     )
 }
 

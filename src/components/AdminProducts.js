@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { fetchBrands, updateProduct } from "../api";
 import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const AdminProducts = ({ token }) => {
 
@@ -78,7 +78,6 @@ const AdminProducts = ({ token }) => {
       if (result.id) {
         fetchProducts();
       }
-      // navigate(`../products`)
     } catch (err) {
       console.log(err);
     }
@@ -122,7 +121,7 @@ const AdminProducts = ({ token }) => {
   return (
     <>
       <Container maxWidth="md">
-        <h2 style={{ textAlign: "center" }}>Product Information</h2>
+        <h1 style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>Product Information</h1>
         <Box sx={{ height: "100%" }}>
           <Stack spacing={2}>
             {products.map((product) => {
