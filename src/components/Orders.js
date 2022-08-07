@@ -3,7 +3,7 @@ import { styled, Paper, Stack } from "@mui/material";
 
 const Orders = () => {
   const userId = localStorage.getItem("userId");
-  const [orders, setOrders] = useState([1, 2, 3]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     const fetchOrderHistory = async () => {
@@ -23,10 +23,9 @@ const Orders = () => {
         const data = await response.json();
 
         if (!response.ok) {
-          //   setErrorMessage(data.message);
           throw new Error(data.message);
         } else {
-          // setOrders(data.data);
+          setOrders(data.data);
         }
 
         console.log(data);
@@ -51,32 +50,75 @@ const Orders = () => {
       spacing={1}
       sx={{ width: "100%", paddingLeft: "10px", paddingRight: "10px" }}
     >
-      <p>Current User: {userId}</p>
+      {/* <p>Current User: {userId}</p> */}
       {orders.map((order, index) => {
-        return <p key={index}>{order.orderId}</p>;
-      })}
-      {orders.map((order, index) => {
+        let orderTotal = 0;
+
         return (
           <Item
             key={index}
             sx={{
-              display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
             }}
           >
-            <img
-              src="https://cdn.flightclub.com/3000/TEMPLATE/299069/1.jpg"
-              alt="product image"
-              width="100"
-              height="70"
-            />
-            <div>
-              <p>Name:Jordan Shoes</p>
-              <p>Brand: Jordan</p>
-              <p>Price: $100</p>
-              <p>Qty: 1</p>
-            </div>
+            <Stack spacing={2}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <h3 style={{ marginBottom: "0px" }}>Order Id: {order.id}</h3>
+                <p style={{ marginBottom: "0px" }}>Status: {order.status}</p>
+              </div>
+              <Stack spacing={2}>
+                {order.items.map((item, index) => {
+                  const priceCurrency = item.purchasePrice.slice(0, 1);
+                  const productPrice = parseInt(
+                    item.purchasePrice.slice(1, -1)
+                  );
+                  orderTotal += productPrice * item.count;
+
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        display: "flex",
+                        alignItems: "start",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <img
+                        src={item.image}
+                        alt="product"
+                        width="100"
+                        height="70"
+                      />
+                      <div>
+                        <h4>{item.name}</h4>
+                        <p>Brand: {item.brand}</p>
+                        <p>Size: {item.size}</p>
+                      </div>
+                      <div>
+                        <p>Unit Price: {item.purchasePrice}</p>
+                        <p>Quantity: {item.count}</p>
+                      </div>
+                      <div>
+                        <p>
+                          Total: {priceCurrency}
+                          {productPrice * item.count}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+                <h2 style={{ textAlign: "right" }}>
+                  Order Total: ${orderTotal}
+                </h2>
+              </Stack>
+            </Stack>
           </Item>
         );
       })}
