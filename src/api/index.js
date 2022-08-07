@@ -198,12 +198,7 @@ export const fetchBrands = async () => {
   const url = `${BASE_URL}/brands`;
 
   try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(url);
     const data = await response.json();
     return data;
   } catch (e) {
@@ -228,6 +223,32 @@ export const updateProduct = async (productId, name, price, brand, image) => {
         brandId: brand,
       }),
     });
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// get products of selected brand
+export const fetchProductsByBrand = async (brandId) => {
+  const url = `${BASE_URL}/products/brands/${brandId}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// get all products
+export const fetchAllProductsInStock = async () => {
+  const url = `${BASE_URL}/products`;
+
+  try {
+    const response = await fetch(url);
     const data = await response.json();
     return data;
   } catch (e) {
