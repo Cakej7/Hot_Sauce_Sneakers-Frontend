@@ -3,8 +3,6 @@ import { Container, Box, Paper, Stack, styled, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const isAdmin = localStorage.getItem("isAdmin");
-
 const AdminUsers = ({ token }) => {
 
   let navigate = useNavigate()
@@ -78,7 +76,7 @@ const AdminUsers = ({ token }) => {
 
   return (
     <Container maxWidth="md">
-      <h2 style={{ textAlign: "center" }}>User Information</h2>
+      <h1 style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>User Information</h1>
       <Box sx={{ height: "100%" }}>
         <Stack spacing={2}>
           {users.map((user) => {

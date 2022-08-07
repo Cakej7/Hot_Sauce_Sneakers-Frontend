@@ -44,7 +44,6 @@ const CreateNewProductForm = () => {
   const onCreateProductSubmit = async (e) => {
     e.preventDefault();
     try {
-      // const response = await fetch(apiUrl + "api/users/register", {
       const response = await fetch("http://localhost:3000/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -70,7 +69,6 @@ const CreateNewProductForm = () => {
 
       console.log(data, "daata");
     } catch (error) {
-      // TODO: Show the error message on the page
       console.log(error);
     }
   };
@@ -78,7 +76,7 @@ const CreateNewProductForm = () => {
   return (
     <>
       <Container maxWidth="md">
-        <h2 style={{ textAlign: "center" }}>Add New Product</h2>
+        <h1 style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>Add New Product</h1>
         <Box
           sx={{
             height: "100%",
