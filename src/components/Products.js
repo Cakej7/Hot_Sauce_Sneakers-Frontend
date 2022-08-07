@@ -73,7 +73,7 @@ const Products = ({ products, setProducts }) => {
 
         <Container maxWidth="lg">
             <Box sx={{ height: '100%' }}>
-            <FormGroup row>
+            <FormGroup style={{display: 'flex', justifyContent: 'center'}} row>
                 {brands.map((brand, index) => {
                     return (
                         <FormControlLabel key={index} label={brand[1]}
@@ -89,7 +89,7 @@ const Products = ({ products, setProducts }) => {
                 products.map(({ id, name, brand, image, price }) => {
                     return (
                         <div key={id} >
-                            <Card  sx={{ maxWidth: 550, minHeight: '65vh', margin: '10px'}}>
+                            <Card  sx={{ maxWidth: 550, minHeight: '100vh', margin: '10px'}}>
                                 <Link to={`/products/${id}`}>
                                     <CardMedia
                                         component="img"

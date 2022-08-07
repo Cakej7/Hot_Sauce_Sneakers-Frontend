@@ -46,7 +46,10 @@ const Orders = () => {
   }));
 
   return (
-    <Stack
+    <div>
+      <h2 style={{textAlign: 'center', margin: '25px'}}>Order History</h2>
+      {orders.length ? 
+      <Stack
       spacing={1}
       sx={{ width: "100%", paddingLeft: "10px", paddingRight: "10px" }}
     >
@@ -123,6 +126,12 @@ const Orders = () => {
         );
       })}
     </Stack>
+      :
+      <h3 style={{textAlign: 'center', margin: '50px'}}>You don't have any orders yet!</h3>
+      }
+    
+    </div>
+    
   );
 };
 

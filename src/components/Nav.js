@@ -20,7 +20,7 @@ const Nav = ({ setCart, token, setToken }) => {
       <Link to="/cart">Cart</Link>
       {token ? (
         <>
-          <Link to="/orders">Orders</Link>
+          <Link to="/orders">Order History</Link>
           <Link to="/" onClick={logout}>Logout</Link>
           {isAdmin === 'true' ? 
           <Link to="/admin/users">Admin</Link>
