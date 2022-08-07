@@ -185,7 +185,7 @@ const AdminProducts = ({ token }) => {
 
         {/* Edit Product Dialog */}
         <Dialog
-          fullWidth="true"
+          fullWidth
           maxWidth="md"
           open={editProductModal}
           onClose={onEditProductModalClose}
