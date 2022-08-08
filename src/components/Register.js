@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import Swal from 'sweetalert2'
 
 const Register = () => {
-  const [errorMessage, setErrorMessage] = useState('');
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
@@ -27,8 +27,7 @@ const Register = () => {
       Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Password must be at least 5 characters.',
-          footer: '<a href="">Why do I have this issue?</a>'
+          text: 'Password must be at least 5 characters.'
         })
     } 
     else {
@@ -45,7 +44,6 @@ const Register = () => {
           });
     
         const data = await response.json();
-        console.log(data)
 
         if (!response.ok || data?.error) {
           Swal.fire({
@@ -53,7 +51,6 @@ const Register = () => {
             title: 'Oops...',
             text: `Email already in use.`
           })
-          setErrorMessage(data.message);
           throw new Error(data.message);
         } else {
           Swal.fire({
@@ -68,7 +65,7 @@ const Register = () => {
           navigate("/login");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   }

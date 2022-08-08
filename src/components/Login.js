@@ -7,7 +7,7 @@ import { addCartItem } from "../api";
 import Swal from 'sweetalert2'
 
 const Login = ({ cart, setToken }) => {
-  const [errorMessage, setErrorMessage] = useState(null);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,11 +24,9 @@ const Login = ({ cart, setToken }) => {
     >
       <form
         onSubmit={async (e) => {
-          console.log("SUBMIT");
           e.preventDefault();
 
           try {
-            // const response = await fetch(apiUrl + "api/users/register", {
             const response = await fetch(
               "http://localhost:3000/api/users/login",
               {
@@ -42,9 +40,7 @@ const Login = ({ cart, setToken }) => {
             );
 
             const data = await response.json();
-            console.log(data);
-            console.log(response);
-
+          
             if (!response.ok || data?.error || data?.name === "TypeError") {
               throw new Error(data.message);
             } else {
@@ -72,16 +68,13 @@ const Login = ({ cart, setToken }) => {
               navigate("/products");
             }
 
-            console.log(data);
           } catch (error) {
-            // TODO: Show the error message on the page
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
               text: `Email and password didn't match our records, try again.`
             })
-            setErrorMessage(error.message);
-            console.log(error);
+            console.error(error);
           }
         }}
       >
@@ -89,15 +82,11 @@ const Login = ({ cart, setToken }) => {
           sx={{
             display: "flex",
             justifyContent: "center",
-            //   alignItems: "center",
             flexDirection: "column",
             maxWidth: "100%",
           }}
         >
-          {/* {errorMessage && <Typography>{errorMessage}</Typography>} */}
           <TextField
-            //       <Link to="/login">Already had an account? Login here!</Link>
-            // helperText="Don't have an account? Register Here"
             helperText=" "
             id="demo-helper-text-aligned"
             label="Email"
@@ -119,10 +108,7 @@ const Login = ({ cart, setToken }) => {
               setPassword(e.target.value);
             }}
           />
-          {/* <Button variant="contained" component="label">
-            Log In
-            <input hidden accept="image/*" multiple type="file" />
-          </Button> */}
+
           <Button type="submit" variant="contained">
             Login
           </Button>

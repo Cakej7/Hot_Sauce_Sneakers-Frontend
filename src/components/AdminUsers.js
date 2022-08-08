@@ -76,7 +76,7 @@ const AdminUsers = ({ token }) => {
 
   return (
     <Container maxWidth="md">
-      <h1 style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>User Information</h1>
+      <h2 className='page-title' style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>User Information</h2>
       <Box sx={{ height: "100%" }}>
         <Stack spacing={2}>
           {users.map((user) => {

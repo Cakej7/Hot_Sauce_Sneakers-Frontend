@@ -113,12 +113,12 @@ const SingleProduct = ({ token, cart, setCart }) => {
     }
 
     return (
-        <Container maxWidth="sm">
+        <Container maxWidth='sm'>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h2 style={{marginTop: '15px'}}>{singleProduct.name}</h2>
+                <h2 className='sub-title' style={{marginTop: '15px'}}>{singleProduct.name}</h2>
                 <img src={singleProduct.image} alt={singleProduct.name} width="100%" height="395px"></img>
-                <h3 style={{marginTop: '15px'}}>Brand: {singleProduct.brand}</h3>
-                <h3 style={{marginTop: '15px', marginBottom: '15px'}}>Price: {singleProduct.price}</h3>
+                <h3 className='small-title' style={{marginTop: '15px'}}>Brand: {singleProduct.brand}</h3>
+                <h3 className='small-title' style={{marginTop: '15px', marginBottom: '15px'}}>Price: {singleProduct.price}</h3>
                 <div style={{width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                     <FormControl sx={{ width: '100px' }}>
                         <InputLabel variant="standard" htmlFor="select-quantity">Quantity</InputLabel>
@@ -131,7 +131,6 @@ const SingleProduct = ({ token, cart, setCart }) => {
                             <option value={3}>3</option>
                             <option value={4}>4</option>
                             <option value={5}>5</option>
-                            <option value={30}>30</option>
                         </NativeSelect>
                     </FormControl>
                     <FormControl sx={{ width: '130px' }}>

@@ -21,8 +21,24 @@ a {
     padding: 10px;
 }
 
+.page-title {
+    font-family: 'Kanit', sans-serif;
+    font-size: 2.5em;
+}
+
+.sub-title {
+    font-family: 'Kanit', sans-serif;
+    font-size: 1.5em;
+}
+
+.small-title {
+    font-family: 'Kanit', sans-serif;
+    font-size: 1.3em;
+}
+
 #checkout-button {
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 #remove-button {
