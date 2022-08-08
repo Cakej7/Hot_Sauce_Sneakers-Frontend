@@ -10,8 +10,9 @@ import {
   NativeSelect,
 } from "@mui/material";
 import Swal from "sweetalert2";
+import { addInventory, fetchBrands, updateInventory } from "../api";
 
-const CreateNewProductForm = () => {
+const CreateNewProductForm = ({ token, products, setProducts }) => {
 
   let navigate = useNavigate();
 
@@ -21,24 +22,58 @@ const CreateNewProductForm = () => {
   const [brand, setProductBrand] = useState(null);
   const [image, setProductImage] = useState("");
 
-  const fetchBrands = async () => {
+  const createProductFetch = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/brands`, {
-        method: "GET",
+      const response = await fetch(`http://localhost:3000/api/products`, {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({
+          name,
+          price,
+          brandId: brand,
+          image,
+        }),
       });
       const result = await response.json();
       console.log(result);
-      setBrands(result);
+      // navigate(`../products`)
     } catch (err) {
-      console.error(err);
+      console.log(err);
+    }
+  };
+
+  const addProductToInventory = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/inventory`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          price,
+          brandId: brand,
+          image,
+        }),
+      });
+      const result = await response.json();
+      console.log(result);
+      // navigate(`../products`)
+    } catch (err) {
+      console.log(err);
     }
   };
 
   useEffect(() => {
-    fetchBrands();
+    fetchBrands()
+      .then((response) => {
+        setBrands(response);
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const onCreateProductSubmit = async (e) => {
@@ -64,6 +99,13 @@ const CreateNewProductForm = () => {
         setProductBrand("");
         setProductPrice("");
         setProductImage("");
+        addInventory(token, data.id, 1, 10)
+          .then((response) => {
+            console.log(response);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         navigate("/admin/products")
       }
 
