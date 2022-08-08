@@ -108,3 +108,19 @@ button:active {
     color: #ffffff;
     font-weight: 200;
 }
+
+.footerLinks {
+    display: inline-block;
+    color: white;
+    margin-right: -5px;
+    margin-left: -5px;
+}
+
+.footerLinks:hover {
+    color: rgb(255,0,0);
+}
+
+#middleLink {
+    margin-right: -10px;
+    margin-left: -10px;
+}
