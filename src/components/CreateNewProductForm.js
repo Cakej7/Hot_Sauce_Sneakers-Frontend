@@ -118,7 +118,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
   return (
     <>
       <Container maxWidth="md">
-        <h1 style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>Add New Product</h1>
+        <h1 className='page-title' style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>Add New Product</h1>
         <Box
           sx={{
             height: "100%",
@@ -144,7 +144,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
               }
             >
               <div style={{ width: "100%" }}>
-                <h3 style={{ textAlign: "center" }}>Product Name</h3>
+                <h3 className="small-title" style={{ textAlign: "center" }}>Product Name</h3>
                 <TextField
                   label="Product Name"
                   variant="outlined"
@@ -158,7 +158,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
                 />
               </div>
               <div style={{ width: "100%" }}>
-                <h3 style={{ textAlign: "center" }}>Product Price</h3>
+                <h3 className="small-title" style={{ textAlign: "center" }}>Product Price</h3>
                 <TextField
                   label="Product Price"
                   variant="outlined"
@@ -172,7 +172,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
                 />
               </div>
               <div style={{ width: "100%" }}>
-                <h3 style={{ textAlign: "center" }}>Product Image</h3>
+                <h3 className="small-title" style={{ textAlign: "center" }}>Product Image</h3>
                 <TextField
                   label="Image URL"
                   variant="outlined"
@@ -186,7 +186,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
                 />
               </div>
               <div style={{ width: "100%" }}>
-                <h3 style={{ textAlign: "center" }}>Brand</h3>
+                <h3 className="small-title" style={{ textAlign: "center" }}>Brand</h3>
                 <FormControl sx={{ width: "100%", marginBottom: "10px" }}>
                   <InputLabel variant="standard" htmlFor="select-quantity">
                     Select Brand

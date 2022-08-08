@@ -62,7 +62,7 @@ const Orders = () => {
             key={index}
             sx={{
               alignItems: "center",
-              justifyContent: "space-between",
+              justifyContent: "space-between"
             }}
           >
             <Stack spacing={2}>
@@ -70,7 +70,7 @@ const Orders = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  alignItems: "center"
                 }}
               >
                 <h3 style={{ marginBottom: "0px" }}>Order Id: {order.id}</h3>
@@ -90,7 +90,7 @@ const Orders = () => {
                       style={{
                         display: "flex",
                         alignItems: "start",
-                        justifyContent: "space-between",
+                        justifyContent: "space-between"
                       }}
                     >
                       <img
@@ -99,7 +99,7 @@ const Orders = () => {
                         width="100"
                         height="70"
                       />
-                      <div>
+                      <div style={{width: '20%'}}>
                         <h4>{item.name}</h4>
                         <p>Brand: {item.brand}</p>
                         <p>Size: {item.size}</p>

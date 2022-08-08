@@ -135,7 +135,7 @@ const Cart = ({ token, cart, setCart }) => {
                                 <div style={{display: 'flex', alignItems: 'center'}}>
                                     <img src={item.image} alt={item.name} width="140" height="100" />
                                     <div>
-                                        <p>Name: {item.name}</p>
+                                        <h4>{item.name}</h4>
                                         <p>Brand: {item.brand}</p>
                                         <p>Size: {item.gender} {item.size}</p>
                                         <p>Price: {item.price}</p>
