@@ -112,9 +112,9 @@ const CheckOut = ({token, cart, setCart}) => {
 
     return (
         <Container maxWidth="md">
-            <h2 style={{textAlign: 'center'}}>Checkout</h2>
+            <h2 className='page-title' style={{textAlign: 'center'}}>Checkout</h2>
             {disabledCheckout ? 
-            <h3 style={{textAlign: 'center', color: 'red'}}>
+            <h3 className='sub-title' style={{textAlign: 'center', color: 'red'}}>
                 Sorry, some items in you cart are currently out of stock. 
                 Please remove them from your cart.
             </h3>
@@ -123,13 +123,13 @@ const CheckOut = ({token, cart, setCart}) => {
             {cart.length ?
             <Box sx={{ height: '100%', display: 'flex', justifyContent: 'space-between' }}>
                 <Stack spacing={1} sx={{ width: '40%' }}>
-                    <h3 style={{textAlign: 'center'}}>Summary</h3>
+                    <h3 className='sub-title' style={{textAlign: 'center'}}>Summary</h3>
                     <p>Subtotal: ${subtotal.toFixed(2)}</p>
                     <p>Tax: ${tax.toFixed(2)}</p>
                     <p>Free Shipping*</p>
                     <p>Total: ${total.toFixed(2)}</p>
                     <Divider />
-                    <h3 style={{textAlign: 'center'}}>In your cart</h3>
+                    <h3 className='sub-title' style={{textAlign: 'center'}}>In your cart</h3>
                     {cart.map((item, index) => {
                         return (
                             <Item key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -148,7 +148,7 @@ const CheckOut = ({token, cart, setCart}) => {
                 <div style={{width: '55%'}}>
                     <form onSubmit={handleSubmit} style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                         <div style={{width: '100%'}}>
-                            <h3 style={{textAlign: 'center'}}>Shipping Address</h3>
+                            <h3 className='sub-title' style={{textAlign: 'center'}}>Shipping Address</h3>
                             <TextField label="Name" variant="outlined" margin="normal" type="text" fullWidth required
                                         value={name} onChange={(e) => setName(e.target.value)}/>
                             <TextField label="Address" variant="outlined" margin="normal" type="text" fullWidth required
@@ -165,14 +165,14 @@ const CheckOut = ({token, cart, setCart}) => {
                                         value={phone} onChange={(e) => setPhone(e.target.value)}/>
                         </div>
                         <div style={{width: '100%'}}>
-                            <h3 style={{textAlign: 'center'}}>Payment Information</h3>
+                            <h3 className='sub-title' style={{textAlign: 'center'}}>Payment Information</h3>
                             <TextField label="Card Holder" variant="outlined" margin="normal" type="text" fullWidth disabled/>
                             <TextField label="Card Number" variant="outlined" margin="normal" type="text" fullWidth disabled/>
                             <TextField label="Expiration Date" variant="outlined" margin="normal" sx={{ width: '30%', marginRight: '10px' }} disabled/>
                             <TextField label="Security Code" variant="outlined" margin="normal" sx={{ width: '30%' }} disabled/>
                         </div>
                         <div style={{width: '100%'}}>
-                            <h3 style={{textAlign: 'center'}}>Billing Address</h3>
+                            <h3 className='sub-title' style={{textAlign: 'center'}}>Billing Address</h3>
                             <TextField label="Name" variant="outlined" margin="normal" type="text" fullWidth disabled/>
                             <TextField label="Address" variant="outlined" margin="normal" type="text" fullWidth disabled/>
                             <TextField label="City" variant="outlined" margin="normal" type="text" sx={{ width: '35%' }} disabled/>
@@ -189,16 +189,16 @@ const CheckOut = ({token, cart, setCart}) => {
                     aria-describedby="confirmation modal"
                 >
                     <Box sx={modalStyle}>
-                        <h2 style={{textAlign: 'center'}}>Confirmation</h2>
-                        <h3>Thank you! Your order is on the way!</h3>
-                        <h3>Shipping Address:</h3>
+                        <h2 className='sub-title' style={{textAlign: 'center'}}>Confirmation</h2>
+                        <h3 className='small-title'>Thank you! Your order is on the way!</h3>
+                        <h3 className='small-title'>Shipping Address:</h3>
                         <p>{name}</p>
                         <p>{address}</p>
                         <p>{city}, {state} {zip}</p>
-                        <h3>Contact Information:</h3>
-                        <p>e-mail: {email}</p>
+                        <h3 className='small-title'>Contact Information:</h3>
+                        <p>E-mail: {email}</p>
                         <p>Phone: {phone}</p>
-                        <h3>Order Details: </h3>
+                        <h3 className='small-title'>Order Details: </h3>
                         <Stack spacing={1} sx={{ width: '100%' }}>
                             {cart.map((item, index) => {
                                 return (
@@ -214,11 +214,11 @@ const CheckOut = ({token, cart, setCart}) => {
                                 )
                             })}
                         </Stack>
-                        <h3>Total: ${total.toFixed(2)}</h3>
+                        <h3 className='small-title'>Total: ${total.toFixed(2)}</h3>
                     </Box>
                 </Modal>
             </Box>
-            : <h3>Nothing to checkout!</h3>
+            : <h3 className='small-title' style={{textAlign: 'center', margin: '50px'}}>Nothing to checkout!</h3>
             }
         </Container>
     )

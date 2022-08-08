@@ -125,10 +125,10 @@ const Cart = ({ token, cart, setCart }) => {
 
     return (
         <Container maxWidth="md" style={{minHeight: '50vh', display: 'relative'}}>
-            <h2 style={{textAlign: 'center', margin: '25px'}}>Cart</h2>
+            <h2 className='page-title' style={{textAlign: 'center', margin: '25px'}}>Cart</h2>
             {cart.length ? 
-            <Box sx={{ height: '100%'}}> 
-                <Stack spacing={2}>
+            <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
+                <Stack spacing={2} sx={{width: '100%'}}>
                     {cart.map((item, index) => {
                         return (
                             <Item key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -165,7 +165,7 @@ const Cart = ({ token, cart, setCart }) => {
                         )
                     })}
                 </Stack>
-                <Button id='checkout-button' variant="contained" size="large" onClick={handleCheckout}>
+                <Button id='checkout-button' variant="contained" sx={{width: '40%'}} size="large" onClick={handleCheckout}>
                     Checkout
                 </Button>
                 <Snackbar open={openStockAlert} autoHideDuration={6000} onClose={handleStockAlertClose}
@@ -175,7 +175,7 @@ const Cart = ({ token, cart, setCart }) => {
                     </Alert>
                 </Snackbar>
             </Box>
-            : <h3 style={{textAlign: 'center', margin: '50px'}}>Your cart is empty! Check out the products page to add items to your cart!</h3>
+            : <h3 className='small-title' style={{textAlign: 'center', margin: '50px'}}>Your cart is empty! Check out the products page to add items to your cart!</h3>
             }
         </Container>
     )
