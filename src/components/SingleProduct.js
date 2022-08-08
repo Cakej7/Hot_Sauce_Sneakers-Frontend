@@ -131,7 +131,6 @@ const SingleProduct = ({ token, cart, setCart }) => {
                             <option value={3}>3</option>
                             <option value={4}>4</option>
                             <option value={5}>5</option>
-                            <option value={30}>30</option>
                         </NativeSelect>
                     </FormControl>
                     <FormControl sx={{ width: '130px' }}>
