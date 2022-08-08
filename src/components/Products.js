@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Container, Box, FormGroup, FormControlLabel, Checkbox } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Container, Box, FormGroup, FormControlLabel, Checkbox, styled,
+         Paper, Grid, CardContent, CardMedia, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { fetchBrands, fetchProductsByBrand, fetchAllProductsInStock } from "../api";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-
-
 
 const Products = ({ products, setProducts }) => {
     
     const [brands, setBrands] = useState(JSON.parse(sessionStorage.getItem('brands') || '[]'));
+    let navigate = useNavigate();
 
     const fetchAllBrands = async () => {
         const allBrands = await fetchBrands();
@@ -68,56 +64,60 @@ const Products = ({ products, setProducts }) => {
         }
         // eslint-disable-next-line
     }, []);
+
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
+
+    const handleOnClick = (id) => {
+        navigate(`/products/${id}`);
+    }
     
     return (
 
         <Container maxWidth="lg">
             <Box sx={{ height: '100%' }}>
-            <FormGroup style={{display: 'flex', justifyContent: 'center'}} row>
-                {brands.map((brand, index) => {
-                    return (
-                        <FormControlLabel key={index} label={brand[1]}
-                            control={<Checkbox checked={brand[2]} value={index} onChange={handleBrandsCheck}/>} 
-                        />
-                    )
-                })}
-            </FormGroup> 
-
-        <div style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-evenly'}}>
-
-            {
-                products.map(({ id, name, brand, image, price }) => {
-                    return (
-                        <div key={id} >
-                            <Card  sx={{ maxWidth: 550, minHeight: '100vh', margin: '10px'}}>
-                                <Link to={`/products/${id}`}>
+                <FormGroup style={{display: 'flex', justifyContent: 'center'}} row>
+                    {brands.map((brand, index) => {
+                        return (
+                            <FormControlLabel key={index} label={brand[1]}
+                                control={<Checkbox checked={brand[2]} value={index} onChange={handleBrandsCheck}/>} 
+                            />
+                        )
+                    })}
+                </FormGroup>
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2} sx={{alignItems: 'stretch'}}>
+                    {products.map(({ id, name, brand, image, price }, index) => {
+                        return (
+                            <Grid item xs={12} sm={6} md={4} key={index}>
+                                <Item style={{height: '100%', cursor: 'pointer'}} onClick={() => handleOnClick(id)}>
                                     <CardMedia
-                                        component="img"
-                                        height='auto'
+                                        component='img'
                                         image={image}
-                                        alt="green iguana"
-
+                                        alt={name}
                                     />
-                                    <CardContent style={{textAlign: 'center'}}>
-                                        <Typography gutterBottom variant="h5" component="div">
+                                    <CardContent sx={{textAlign: 'left'}}>
+                                        <Typography gutterBottom variant='h6' sx={{color: 'black'}}>
                                         {name}
                                         </Typography>
-                                        <Typography style={{margin: '10px'}} variant="h5" color="black">
+                                        <Typography gutterBottom variant='h6'>
                                         {brand}
                                         </Typography>
-                                        <Typography variant="h5" color="black">
+                                        <Typography variant='h6' >
                                         {price}
                                         </Typography>
                                     </CardContent>
-                                </Link>
-                            </Card>
-                        </div>
-                        
-                    )
-                })
-            }
-        </div>
-
+                                </Item>
+                            </Grid>
+                        )
+                    })}
+                    </Grid>
+                </Box>
             </Box>
         </Container>
     )
