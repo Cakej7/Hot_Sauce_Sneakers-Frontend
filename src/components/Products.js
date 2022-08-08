@@ -91,7 +91,7 @@ const Products = ({ products, setProducts }) => {
                     })}
                 </FormGroup>
                 <Box sx={{ flexGrow: 1 }}>
-                    <Grid container spacing={2} sx={{alignItems: 'stretch'}}>
+                    <Grid container spacing={2} sx={{alignItems: 'stretch', marginTop: '1px'}}>
                     {products.map(({ id, name, brand, image, price }, index) => {
                         return (
                             <Grid item xs={12} sm={6} md={4} key={index}>
@@ -102,7 +102,7 @@ const Products = ({ products, setProducts }) => {
                                         alt={name}
                                     />
                                     <CardContent sx={{textAlign: 'left'}}>
-                                        <Typography gutterBottom variant='h6' sx={{color: 'black'}}>
+                                        <Typography gutterBottom variant='h6' sx={{color: 'black', fontFamily: 'Kanit'}}>
                                         {name}
                                         </Typography>
                                         <Typography gutterBottom variant='h6'>

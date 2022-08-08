@@ -86,17 +86,15 @@ const AdminUsers = ({ token }) => {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: 'space-between',
+                  justifyContent: 'space-between'
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <div>
-                    <h2>Email: {user.email}</h2>
-                    <h4>{`Is Admin: ${user.isAdmin}`}</h4>
-                    <h4>{`Is Active User: ${user.isActive}`}</h4>
-                  </div>
-                  <div style={{ display: "flex" }}>
-
+                <div>
+                  <h2 className="sub-title">Email: {user.email}</h2>
+                  <p className="small-title">{`Is Admin: ${user.isAdmin}`}</p>
+                  <p className="small-title">{`Is Active User: ${user.isActive}`}</p>
+                </div>
+                <div style={{ display: "flex", justifyContent: 'flex-end', alignItems: "center" }}>
                     {user.isAdmin === false ?
                       <Button
                         onClick={async (e) => {
@@ -155,8 +153,7 @@ const AdminUsers = ({ token }) => {
                     :
                     null
                   }
-                      
-                    </div>
+
                 </div>
               </Item>
             );

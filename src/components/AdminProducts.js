@@ -121,7 +121,7 @@ const AdminProducts = ({ token }) => {
   return (
     <>
       <Container maxWidth="md">
-        <h1 style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>Product Information</h1>
+        <h1 className='page-title' style={{ textAlign: "center", marginBottom: '25px', color: 'black' }}>Product Information</h1>
         <Box sx={{ height: "100%" }}>
           <Stack spacing={2}>
             {products.map((product) => {
@@ -139,9 +139,9 @@ const AdminProducts = ({ token }) => {
                       <img src={product.image} width="150" />
                     </div>
                     <div>
-                      <h2>Product Name: {product.name}</h2>
-                      <h4>Price: {product.price}</h4>
-                      <p>Brand: {product.brand}</p>
+                      <h2 className="sub-title">Product Name: {product.name}</h2>
+                      <h4 className="small-title">Price: {product.price}</h4>
+                      <p className="small-title">Brand: {product.brand}</p>
                       {/* <p>Is Active User: ${user.isActive}</p>  */}
                     </div>
                   </div>
@@ -189,7 +189,7 @@ const AdminProducts = ({ token }) => {
           open={editProductModal}
           onClose={onEditProductModalClose}
         >
-          <DialogTitle>Edit Product</DialogTitle>
+          <DialogTitle sx={{textAlign: 'center', fontFamily: 'Kanit', fontSize: '2.5em' }}>Edit Product</DialogTitle>
           <DialogContent>
             <div>
               <Stack spacing={2}>
@@ -202,7 +202,7 @@ const AdminProducts = ({ token }) => {
                   }}
                 >
                   <div style={{ width: "100%" }}>
-                    <h3 style={{ textAlign: "center" }}>Product Name</h3>
+                    <h3 className="small-title" style={{ textAlign: "center" }}>Product Name</h3>
                     <TextField
                       label="Product Name"
                       variant="outlined"
@@ -217,7 +217,7 @@ const AdminProducts = ({ token }) => {
                     />
                   </div>
                   <div style={{ width: "100%" }}>
-                    <h3 style={{ textAlign: "center" }}>Product Price</h3>
+                    <h3 className="small-title" style={{ textAlign: "center" }}>Product Price</h3>
                     <TextField
                       label="Product Price"
                       variant="outlined"
@@ -232,7 +232,7 @@ const AdminProducts = ({ token }) => {
                     />
                   </div>
                   <div style={{ width: "100%" }}>
-                    <h3 style={{ textAlign: "center" }}>Product Image</h3>
+                    <h3 className="small-title" style={{ textAlign: "center" }}>Product Image</h3>
                     <TextField
                       label="Image URL"
                       variant="outlined"
@@ -247,7 +247,7 @@ const AdminProducts = ({ token }) => {
                     />
                   </div>
                   <div style={{ width: "100%" }}>
-                    <h3 style={{ textAlign: "center" }}>Brand</h3>
+                    <h3 className="small-title" style={{ textAlign: "center" }}>Brand</h3>
                     <FormControl sx={{ width: "100%", marginBottom: "10px" }}>
                       <InputLabel variant="standard" htmlFor="select-quantity">
                         Select Brand
