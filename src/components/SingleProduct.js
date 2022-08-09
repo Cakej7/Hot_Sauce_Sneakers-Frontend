@@ -62,8 +62,16 @@ const SingleProduct = ({ token, cart, setCart }) => {
         }
     }
 
-    const handleSizeChange = (event) => {
+    const handleSizeChange = async (event) => {
         setSize(event.target.value);
+        const inventory = await getInventoryByProductIdAndSizeId(productId, event.target.value);
+        if(inventory.stock < quantity) {
+            setStock(inventory.stock);
+            setOpenStockAlert(true);
+            event.target.value = size;
+            const copySize = size;
+            setSize(copySize);
+        }
     }
 
     const handleAddToCart = async (singleProduct) => {
