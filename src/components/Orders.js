@@ -48,7 +48,7 @@ const Orders = () => {
   return (
     <div>
       <h2 className='page-title' style={{textAlign: 'center', margin: '25px'}}>Order History</h2>
-      {orders ? 
+      {orders.length ? 
       <Stack
       spacing={1}
       sx={{ width: "100%", paddingLeft: "10px", paddingRight: "10px" }}
