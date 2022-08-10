@@ -127,7 +127,7 @@ const Orders = () => {
       })}
     </Stack>
       :
-      <h3 style={{textAlign: 'center', margin: '50px'}}>You don't have any orders yet!</h3>
+      <h3 style={{textAlign: 'center', margin: '50px', fontFamily: 'Kanit', fontSize: '1.3em'}}>You don't have any orders yet!</h3>
       }
     
     </div>
