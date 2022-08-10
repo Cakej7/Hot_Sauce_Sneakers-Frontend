@@ -33,7 +33,7 @@ const Register = () => {
     else {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/users/register",
+          "https://fathomless-tor-90916.herokuapp.com/api/users/register",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

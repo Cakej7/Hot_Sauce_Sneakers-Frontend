@@ -28,7 +28,7 @@ const Login = ({ cart, setToken }) => {
 
           try {
             const response = await fetch(
-              "http://localhost:3000/api/users/login",
+              "https://fathomless-tor-90916.herokuapp.com/api/users/login",
               {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -53,7 +53,7 @@ const Login = ({ cart, setToken }) => {
               })
               setToken(data.token);
               localStorage.setItem("token", data.token);
-              localStorage.setItem("emai", data.user.email);
+              localStorage.setItem("email", data.user.email);
               localStorage.setItem("userId", data.user.id);
               localStorage.setItem("isAdmin", data.user.isAdmin);
               setEmail("");

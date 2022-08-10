@@ -1,5 +1,5 @@
 // api functions goes here
-const BASE_URL = "http://localhost:3000/api";
+const BASE_URL = "https://fathomless-tor-90916.herokuapp.com/api";
 
 // fetch cart items for logged in user
 export const fetchCartItems = async (token) => {
