@@ -24,7 +24,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
 
   const createProductFetch = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/products`, {
+      const response = await fetch(`https://fathomless-tor-90916.herokuapp.com/api/products`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -47,7 +47,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
 
   const addProductToInventory = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/inventory`, {
+      const response = await fetch(`https://fathomless-tor-90916.herokuapp.com/api/inventory`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -79,7 +79,7 @@ const CreateNewProductForm = ({ token, products, setProducts }) => {
   const onCreateProductSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/api/products", {
+      const response = await fetch("https://fathomless-tor-90916.herokuapp.com/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

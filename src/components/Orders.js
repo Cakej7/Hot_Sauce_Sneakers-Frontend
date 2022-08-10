@@ -9,7 +9,7 @@ const Orders = () => {
     const fetchOrderHistory = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/users/${userId}/orderhistory`,
+          `https://fathomless-tor-90916.herokuapp.com/api/users/${userId}/orderhistory`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
@@ -48,7 +48,7 @@ const Orders = () => {
   return (
     <div>
       <h2 className='page-title' style={{textAlign: 'center', margin: '25px'}}>Order History</h2>
-      {orders.length ? 
+      {orders ? 
       <Stack
       spacing={1}
       sx={{ width: "100%", paddingLeft: "10px", paddingRight: "10px" }}
