@@ -12,7 +12,7 @@ import {
   CreateNewProductForm,
   Orders,
   AdminProducts,
-  AdminUsers,
+  AdminUsers
 } from "./components";
 
 const App = () => {
@@ -30,8 +30,6 @@ const App = () => {
           <Route index element={<Products products={products} setProducts={setProducts}/>} />
 
           <Route path='/products' element={<Products products={products} setProducts={setProducts} />} />
-
-
 
           <Route
             path="/products/:productId"
@@ -74,7 +72,6 @@ const App = () => {
             path="/cart"
             element={<Cart token={token} cart={cart} setCart={setCart} />}
           />
-
 
           <Route path='/checkout' element={<CheckOut token={token} cart={cart} setCart={setCart}/>} />
 
