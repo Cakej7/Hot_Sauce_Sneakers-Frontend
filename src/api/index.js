@@ -1,5 +1,6 @@
 // api functions goes here
-const BASE_URL = "https://fathomless-tor-90916.herokuapp.com/api";
+const BASE_URL = "https://blooming-coast-91378.herokuapp.com/api";
+// https://fathomless-tor-90916.herokuapp.com
 
 // fetch cart items for logged in user
 export const fetchCartItems = async (token) => {

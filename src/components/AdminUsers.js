@@ -19,7 +19,7 @@ const AdminUsers = ({ token }) => {
 
   const userInfoFetch = async () => {
     try {
-      const response = await fetch(`https://fathomless-tor-90916.herokuapp.com/api/admin/users`, {
+      const response = await fetch(`https://blooming-coast-91378.herokuapp.com/api/admin/users`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +36,7 @@ const AdminUsers = ({ token }) => {
 
   const userDeleteFetch = async (userId) => {
     try {
-      const response = await fetch(`https://fathomless-tor-90916.herokuapp.com/api/admin/users/deactivate/${userId}`, {
+      const response = await fetch(`https://blooming-coast-91378.herokuapp.com/api/admin/users/deactivate/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const AdminUsers = ({ token }) => {
 
   const userUpgradeToAdminFetch = async (userId) => {
     try {
-      const response = await fetch(`https://fathomless-tor-90916.herokuapp.com/api/admin/users/upgrade/${userId}`, {
+      const response = await fetch(`https://blooming-coast-91378.herokuapp.com/api/admin/users/upgrade/${userId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

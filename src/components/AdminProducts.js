@@ -39,7 +39,7 @@ const AdminProducts = ({ token }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`https://fathomless-tor-90916.herokuapp.com/api/products/admin`, {
+      const response = await fetch(`https://blooming-coast-91378.herokuapp.com/api/products/admin`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const AdminProducts = ({ token }) => {
   const onDeleteProduct = async (productId) => {
     try {
       const response = await fetch(
-        `https://fathomless-tor-90916.herokuapp.com/api/products/${productId}`,
+        `https://blooming-coast-91378.herokuapp.com/api/products/${productId}`,
         {
           method: "DELETE",
           headers: {

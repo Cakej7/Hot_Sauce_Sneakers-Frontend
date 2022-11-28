@@ -15,7 +15,7 @@ const SingleProduct = ({ token, cart, setCart }) => {
     const {productId} = useParams()
 
     useEffect(() => {
-        axios.get(`https://fathomless-tor-90916.herokuapp.com/api/products/${productId}`)
+        axios.get(`https://blooming-coast-91378.herokuapp.com/api/products/${productId}`)
         .then((response) => {
             setSingleProduct(response.data);
             setSizes(response.data.sizes);

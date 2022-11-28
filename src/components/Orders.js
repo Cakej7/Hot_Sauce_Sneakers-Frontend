@@ -9,7 +9,7 @@ const Orders = () => {
     const fetchOrderHistory = async () => {
       try {
         const response = await fetch(
-          `https://fathomless-tor-90916.herokuapp.com/api/users/${userId}/orderhistory`,
+          `https://blooming-coast-91378.herokuapp.com/api/users/${userId}/orderhistory`,
           {
             method: "GET",
             headers: { "Content-Type": "application/json" },
